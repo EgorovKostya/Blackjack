@@ -1,16 +1,18 @@
-package com.example;
+package com.example.client;
 
+import com.example.Controller;
+import com.example.entity.Player;
+import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
+import lombok.Data;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
-public class ClientHandler implements Runnable {
-
-    public static List<ClientHandler> clientHandlers = new ArrayList<>();
+@Data
+public class Client {
 
     private Socket socket;
 
@@ -18,19 +20,31 @@ public class ClientHandler implements Runnable {
 
     private MessageOutputStream messageOutputStream;
 
-    public ClientHandler(Socket socket) {
+    private Controller controller;
+
+    private Player player;
+
+    public Client(Socket socket, Controller controller) {
         try {
+
             this.socket = socket;
             messageInputStream = new MessageInputStream(socket.getInputStream());
             messageOutputStream = new MessageOutputStream(socket.getOutputStream());
-            clientHandlers.add(this);
+            this.controller = controller;
         } catch (IOException e) {
             close(socket, messageOutputStream, messageInputStream);
         }
     }
 
-    public void close(Socket socket, MessageOutputStream messageOutputStream, MessageInputStream messageInputStream) {
+    public Client() {
+    }
 
+
+    public void sendMessage(Message message) {
+        messageOutputStream.writeMessage(message);
+    }
+
+    public void close(Socket socket, MessageOutputStream messageOutputStream, MessageInputStream messageInputStream) {
         try {
             if (messageOutputStream.getOutputStream() != null) {
                 messageOutputStream.getOutputStream().close();
@@ -46,16 +60,5 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    @Override
-    public void run() {
-        String message;
-        while (socket.isConnected()) {
-
-        }
-    }
-
-    public void remove() {
-        clientHandlers.remove(this);
     }
 }

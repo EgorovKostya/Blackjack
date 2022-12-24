@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,31 +36,6 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Client client = new Client(socket);
-    }
-
-    public void onHelloButtonClickFirst(ActionEvent actionEvent) {
-        button1.setText("Занято");
-        button1.setDisable(true);
-    }
-
-    public void onHelloButtonClickSecond(ActionEvent actionEvent) {
-        button2.setText("Занято");
-        button2.setDisable(true);
-    }
-
-    public void onHelloButtonClickThird(ActionEvent actionEvent) {
-        button3.setText("Занято");
-        button3.setDisable(true);
-    }
-
-    public void onHelloButtonClickFourth(ActionEvent actionEvent) {
-        button4.setText("Занято");
-        button4.setDisable(true);
-    }
-
-    public void onHelloButtonClickFifth(ActionEvent actionEvent) {
-        button5.setText("Занято");
-        button5.setDisable(true);
+        Client client = new Client(socket, this);
     }
 }

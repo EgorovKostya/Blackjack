@@ -8,4 +8,8 @@ module com.example.project {
 
     opens com.example to javafx.fxml;
     exports com.example;
+    exports com.example.client;
+    opens com.example.client to javafx.fxml;
+    exports server;
+    opens server to javafx.fxml;
 }

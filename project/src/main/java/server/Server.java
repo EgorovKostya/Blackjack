@@ -1,4 +1,6 @@
-package com.example;
+package server;
+
+import com.example.ClientHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,7 +19,6 @@ public class Server {
         try {
             while (!serverSocket.isClosed()) {
                 Socket socket = null;
-
                 socket = serverSocket.accept();
                 System.out.println("New client enter the game");
                 ClientHandler clientHandler = new ClientHandler(socket);
