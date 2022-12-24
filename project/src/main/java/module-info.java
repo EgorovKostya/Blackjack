@@ -10,6 +10,6 @@ module com.example.project {
     exports com.example;
     exports com.example.client;
     opens com.example.client to javafx.fxml;
-    exports server;
-    opens server to javafx.fxml;
+    exports com.example.server;
+    opens com.example.server to javafx.fxml;
 }
