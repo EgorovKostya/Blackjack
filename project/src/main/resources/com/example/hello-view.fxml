@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="618.0" prefWidth="815.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller">
+<VBox alignment="CENTER" prefHeight="618.0" prefWidth="815.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -23,15 +23,15 @@
                   <Image url="@60ba843165cb1-transformed.png" />
                </image>
             </ImageView>
-            <Button fx:id="button3" mnemonicParsing="false" onAction="#onHelloButtonClickThird" text="Зайти" translateX="10.0" translateY="200.0" />
-            <Button fx:id="button1" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onHelloButtonClickFirst" text="Зайти" translateX="-250.0" translateY="100.0" />
+            <Button fx:id="button3" mnemonicParsing="false" text="Зайти" onAction="#onClickAction3" translateX="10.0" translateY="200.0" />
+            <Button fx:id="button1" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction1" text="Зайти" translateX="-250.0" translateY="100.0" />
             <Label prefHeight="18.0" prefWidth="52.0" text="Дилер" textFill="#dd0909" textOverrun="CLIP" translateX="70.0" translateY="-20.0">
                <font>
                   <Font name="Book Antiqua" size="14.0" />
                </font></Label>
-            <Button fx:id="button2" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onHelloButtonClickSecond" text="Зайти" translateX="-165.0" translateY="180.0" />
-            <Button fx:id="button4" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onHelloButtonClickFourth" text="Зайти" translateX="185.0" translateY="185.0" />
-            <Button fx:id="button5" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onHelloButtonClickFifth" text="Зайти" translateX="270.0" translateY="100.0" />
+            <Button fx:id="button2" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction2" text="Зайти" translateX="-165.0" translateY="180.0" />
+            <Button fx:id="button4" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction4" text="Зайти" translateX="185.0" translateY="185.0" />
+            <Button fx:id="button5" layoutX="372.0" layoutY="180.0" mnemonicParsing="false"  onAction="#onClickAction5" text="Зайти" translateX="270.0" translateY="100.0" />
          </children>
       </StackPane>
    </children>

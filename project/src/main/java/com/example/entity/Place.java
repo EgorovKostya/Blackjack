@@ -1,20 +1,17 @@
 package com.example.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.OutputStream;
 import java.io.Serializable;
 
-@Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Player implements Serializable {
+@AllArgsConstructor
+public class Place implements Serializable {
 
+    private byte id;
     private String username;
-    private String id;
-    private byte placeId;
-    private int[] cards = new int[11];
 }

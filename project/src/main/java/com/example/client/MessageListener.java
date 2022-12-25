@@ -1,14 +1,18 @@
 package com.example.client;
 
-import com.example.Controller;
+import com.example.entity.Player;
+import com.example.mapper.Parser;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
+import com.example.protocol.MessageOutputStream;
 
 import static com.example.protocol.Constant.*;
 
 public class MessageListener implements Runnable {
 
     private MessageInputStream messageInputStream;
+
+    private MessageOutputStream messageOutputStream;
 
     private Client client;
 
@@ -17,6 +21,7 @@ public class MessageListener implements Runnable {
     public MessageListener(Client client) {
         this.client = client;
         this.messageInputStream = client.getMessageInputStream();
+        this.messageOutputStream = client.getMessageOutputStream();
         this.controller = client.getController();
     }
 
@@ -24,19 +29,16 @@ public class MessageListener implements Runnable {
     @Override
     public void run() {
         Message message;
-
         try {
-
             while ((message = messageInputStream.readMessage()) != null) {
-
+                System.out.println(2);
                 switch (message.getType()) {
-//                    case ENTER_ROOM: {
-//                        client.sendMessage(new Message());
-//                        break;
-//                    }
-//                    case TAKE_PLACE: {
-//
-//                    }
+                    case SOMEONE_ENTERED_ROOM: {
+                        Player player = (Player) Parser.deserialize(message.getData());
+                        System.out.println(player);
+                        controller.drawPlayerPlaces(player);
+                        break;
+                    }
                 }
             }
 

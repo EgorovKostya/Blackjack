@@ -1,5 +1,7 @@
-package com.example.client;
+package com.example;
 
+import com.example.client.MessageListener;
+import com.example.protocol.Message;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

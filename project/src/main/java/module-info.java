@@ -7,9 +7,9 @@ module com.example.project {
     requires lombok;
 
     opens com.example to javafx.fxml;
-    exports com.example;
     exports com.example.client;
     opens com.example.client to javafx.fxml;
     exports com.example.server;
     opens com.example.server to javafx.fxml;
+    exports com.example;
 }

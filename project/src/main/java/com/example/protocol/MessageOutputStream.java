@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.SneakyThrows;
 
 import java.io.OutputStream;
+import java.util.Arrays;
 
 import static com.example.protocol.Message.*;
 
@@ -34,8 +35,10 @@ public class MessageOutputStream {
 
         outputStream.write(length);
 
+        byte[] tamp = new byte[length];
         for (int i = 0; i < length; i++){
-            outputStream.write(data[i]);
+            tamp[i] = data[i];
         }
+        outputStream.write(tamp);
     }
 }

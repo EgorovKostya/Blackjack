@@ -1,7 +1,5 @@
 package com.example.server;
 
-import com.example.ClientHandler;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

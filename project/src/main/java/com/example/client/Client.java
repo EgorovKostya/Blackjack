@@ -1,6 +1,5 @@
 package com.example.client;
 
-import com.example.Controller;
 import com.example.entity.Player;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
@@ -9,7 +8,6 @@ import lombok.Data;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 @Data
 public class Client {
