@@ -31,8 +31,15 @@ public class MessageListener implements Runnable {
         Message message;
         try {
             while ((message = messageInputStream.readMessage()) != null) {
-                System.out.println(2);
                 switch (message.getType()) {
+                    case DRAW_PLACES: {
+                        byte[] temp = message.getData();
+                        for (byte i = 0; i < temp.length; i++) {
+                            if (temp[i] == 1) {
+
+                            }
+                        }
+                    }
                     case SOMEONE_ENTERED_ROOM: {
                         Player player = (Player) Parser.deserialize(message.getData());
                         System.out.println(player);

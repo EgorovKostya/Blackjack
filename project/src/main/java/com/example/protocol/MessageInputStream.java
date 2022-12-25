@@ -25,9 +25,6 @@ public class MessageInputStream {
         if (start != HEADER_1 && fin != HEADER_2) {
             throw new ProtocolException("Another version of protocol");
         }
-        for (byte i = 0; i < 5; i++) {
-            places[i] = (byte) inputStream.read();
-        }
         byte type = (byte) inputStream.read();
 
         int length = inputStream.read();

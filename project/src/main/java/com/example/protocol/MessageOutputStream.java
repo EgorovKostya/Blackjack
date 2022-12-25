@@ -23,7 +23,6 @@ public class MessageOutputStream {
     public void writeMessage(Message message) {
         outputStream.write(HEADER_1);
         outputStream.write(HEADER_2);
-        outputStream.write(places);
 
         byte type = message.getType();
 

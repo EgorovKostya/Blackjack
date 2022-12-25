@@ -1,10 +1,14 @@
 package com.example.server;
 
+import com.example.entity.Player;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+
+    public static Player[] places = new Player[5];
 
     private ServerSocket serverSocket;
 

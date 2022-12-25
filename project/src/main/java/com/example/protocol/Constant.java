@@ -8,4 +8,5 @@ public class Constant {
 
     public static final byte SEND_ID = 64; // -com.example.server send message with him ID(equals him place) --- (String)
     public static final byte SOMEONE_ENTERED_ROOM = 65;
+    public static final byte DRAW_PLACES = 66;
 }

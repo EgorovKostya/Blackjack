@@ -17,7 +17,6 @@ public class Message {
     private OutputStream outputStream;
     public static final byte HEADER_1 = 0X01;
     public static final byte HEADER_2 = 0X02;
-    public static final byte[] places = new byte[5];
 
     private byte type;
 
