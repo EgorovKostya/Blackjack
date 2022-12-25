@@ -5,6 +5,9 @@ import com.example.mapper.Parser;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
+import lombok.SneakyThrows;
+
+import java.util.ArrayList;
 
 import static com.example.protocol.Constant.*;
 
@@ -18,27 +21,29 @@ public class MessageListener implements Runnable {
 
     private Controller controller;
 
-    public MessageListener(Client client) {
+    public MessageListener(Client client, Controller controller) {
         this.client = client;
         this.messageInputStream = client.getMessageInputStream();
         this.messageOutputStream = client.getMessageOutputStream();
-        this.controller = client.getController();
+        this.controller = controller;
     }
 
 
+    @SneakyThrows
     @Override
-    public void run() {
+    public void  run() {
         Message message;
         try {
             while ((message = messageInputStream.readMessage()) != null) {
                 switch (message.getType()) {
                     case DRAW_PLACES: {
                         byte[] temp = message.getData();
-                        for (byte i = 0; i < temp.length; i++) {
-                            if (temp[i] == 1) {
-
+                        for (Player player: (ArrayList<Player>) Parser.deserialize(message.getData())) {
+                            if (player != null) {
+                                controller.drawPlayerPlaces(player);
                             }
                         }
+                        break;
                     }
                     case SOMEONE_ENTERED_ROOM: {
                         Player player = (Player) Parser.deserialize(message.getData());
@@ -50,7 +55,7 @@ public class MessageListener implements Runnable {
             }
 
         } catch ( Throwable e) {
-            client.close(client.getSocket(), client.getMessageOutputStream(), client.getMessageInputStream());
+            e.printStackTrace();
         }
     }
 }

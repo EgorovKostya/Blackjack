@@ -5,10 +5,12 @@ import com.example.entity.Player;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
 
-    public static Player[] places = new Player[5];
+    public static List<Player> places = new ArrayList<>();
 
     private ServerSocket serverSocket;
 
@@ -44,6 +46,11 @@ public class Server {
 
 
     public static void main(String[] args) throws IOException {
+        places.add(null);
+        places.add(null);
+        places.add(null);
+        places.add(null);
+        places.add(null);
         ServerSocket serverSocket = new ServerSocket(5555);
         Server server = new Server(serverSocket);
         server.start();

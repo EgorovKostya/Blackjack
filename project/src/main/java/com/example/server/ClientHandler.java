@@ -30,8 +30,6 @@ public class ClientHandler implements Runnable {
             messageInputStream = new MessageInputStream(socket.getInputStream());
             messageOutputStream = new MessageOutputStream(socket.getOutputStream());
             clientHandlers.add(this);
-
-//            messageOutputStream.writeMessage(new Message(DRAW_PLACES, ));
         } catch (IOException e) {
             close(socket, messageOutputStream, messageInputStream);
         }
@@ -44,10 +42,13 @@ public class ClientHandler implements Runnable {
             switch (message.getType()) {
                 case TAKE_PLACE: {
                     Player player = (Player) Parser.deserialize(message.getData());
-                    Server.places[player.getPlaceId() - 1] = player;
-                    System.out.println(player);
-                    System.out.println(Arrays.toString(Server.places));
+                    Server.places.set(player.getPlaceId() - 1, player);
+                    System.out.println(Server.places);
                     sendMessageAnotherPlayers(new Message(SOMEONE_ENTERED_ROOM, Parser.serialize(player)));
+                }
+                case SERVER_DRAW_PLACES: {
+                    byte[] des = Parser.serialize(Server.places);
+                    messageOutputStream.writeMessage(new Message(DRAW_PLACES, des));
                 }
             }
         }

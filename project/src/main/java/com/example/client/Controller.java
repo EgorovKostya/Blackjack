@@ -8,17 +8,11 @@ import com.example.protocol.MessageOutputStream;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-
-import java.io.IOException;
-import java.net.Socket;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import static com.example.protocol.Constant.*;
 
-public class Controller implements Initializable {
+public class Controller {
 
     private MessageInputStream messageInputStream;
 
@@ -39,53 +33,46 @@ public class Controller implements Initializable {
     @FXML
     public Button button5;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Socket socket = null;
-        try {
-            socket = new Socket("localhost",5555);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Client client = new Client(socket, this);
-        messageOutputStream = client.getMessageOutputStream();
-        messageInputStream = client.getMessageInputStream();
-        Thread listener = new Thread(new MessageListener(client));
-        listener.start();
-    }
+    private Player player;
+
 
     public void onClickAction1(ActionEvent actionEvent) {
         button1.setText("Вы");
         button1.setDisable(true);
-        byte[] des = Parser.serialize(Player.builder().username("Petya").placeId((byte) 1).build());
+        player.setPlaceId((byte) 1);
+        byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
     }
 
     public void onClickAction2(ActionEvent actionEvent) {
         button2.setText("Вы");
         button2.setDisable(true);
-        byte[] des = Parser.serialize(Player.builder().username("WHO").placeId((byte) 2).build());
+        player.setPlaceId((byte) 2);
+        byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
     }
 
     public void onClickAction3(ActionEvent actionEvent) {
         button3.setText("Вы");
         button3.setDisable(true);
-        byte[] des = Parser.serialize(Player.builder().username("MIsha").placeId((byte) 3).build());
+        player.setPlaceId((byte) 3);
+        byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
     }
 
     public void onClickAction4(ActionEvent actionEvent) {
         button4.setText("Вы");
         button4.setDisable(true);
-        byte[] des = Parser.serialize(Player.builder().username("Kostya").placeId((byte) 4).build());
+        player.setPlaceId((byte) 4);
+        byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
     }
 
     public void onClickAction5(ActionEvent actionEvent) {
         button5.setText("Вы");
         button5.setDisable(true);
-        byte[] des = Parser.serialize(Player.builder().username("Sirin").placeId((byte) 5).build());
+        player.setPlaceId((byte) 5);
+        byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
     }
 
@@ -121,5 +108,11 @@ public class Controller implements Initializable {
 
     private void setText(Button button, String username) {
         Platform.runLater(() -> button.setText(username));
+    }
+
+    public void transfer(MessageOutputStream messageOutputStream, MessageInputStream messageInputStream, Player player) {
+        this.messageOutputStream = messageOutputStream;
+        this.messageInputStream = messageInputStream;
+        this.player = player;
     }
 }

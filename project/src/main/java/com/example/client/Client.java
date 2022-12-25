@@ -18,17 +18,14 @@ public class Client {
 
     private MessageOutputStream messageOutputStream;
 
-    private Controller controller;
-
     private Player player;
 
-    public Client(Socket socket, Controller controller) {
+    public Client(Socket socket) {
         try {
 
             this.socket = socket;
             messageInputStream = new MessageInputStream(socket.getInputStream());
             messageOutputStream = new MessageOutputStream(socket.getOutputStream());
-            this.controller = controller;
         } catch (IOException e) {
             close(socket, messageOutputStream, messageInputStream);
         }
