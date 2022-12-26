@@ -10,6 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+
 import static com.example.protocol.Constant.*;
 
 public class Controller {
@@ -32,6 +35,9 @@ public class Controller {
 
     @FXML
     public Button button5;
+
+    @FXML
+    public Button button6;
 
     private Player player;
 
@@ -106,6 +112,10 @@ public class Controller {
         }
     }
 
+    public void onClickActionLeave(ActionEvent actionEvent) {
+        messageOutputStream.writeMessage(new Message(PLAYER_LEAVE, Parser.serialize(player)));
+    }
+
     private void setText(Button button, String username) {
         Platform.runLater(() -> button.setText(username));
     }
@@ -114,5 +124,46 @@ public class Controller {
         this.messageOutputStream = messageOutputStream;
         this.messageInputStream = messageInputStream;
         this.player = player;
+
+    }
+
+    public void deletePlayerPlace(byte i) {
+        switch (i) {
+            case 0: {
+                button1.setDisable(false);
+                setText(button1, "Занять");
+                break;
+            }
+            case 1: {
+                button2.setDisable(false);
+                setText(button2, "Занять");
+                break;
+            }
+            case 2: {
+                button3.setDisable(false);
+                setText(button3, "Занять");
+                break;
+            }
+            case 3: {
+                button4.setDisable(false);
+                setText(button4, "Занять");
+                break;
+            }
+            case 4: {
+                button5.setDisable(false);
+                setText(button5, "Занять");
+                break;
+            }
+        }
+    }
+
+    public void drawFreePlaces(ArrayList<Player> players) {
+        System.out.println(players);
+        for (byte i = 0; i < 5; i++) {
+            if (players.get(i) == null) {
+                deletePlayerPlace(i);
+            }
+        }
+        messageOutputStream.writeMessage(new Message(SERVER_DRAW_PLACES, "CHE".getBytes(StandardCharsets.UTF_8)));
     }
 }

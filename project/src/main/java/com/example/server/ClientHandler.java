@@ -49,6 +49,22 @@ public class ClientHandler implements Runnable {
                 case SERVER_DRAW_PLACES: {
                     byte[] des = Parser.serialize(Server.places);
                     messageOutputStream.writeMessage(new Message(DRAW_PLACES, des));
+                    break;
+                }
+                case PLAYER_LEAVE: {
+                    Player player = (Player) Parser.deserialize(message.getData());
+                    for (byte i = 0; i < 5; i ++) {
+                        if (Server.places.get(i) != null) {
+                            if (player.getUsername().equals(Server.places.get(i).getUsername())) {
+                                Server.places.set(i, null);
+                            }
+                        }
+                    }
+                    System.out.println(Server.places);
+                    byte[] des = Parser.serialize(Server.places);
+                    messageOutputStream.writeMessage(new Message(DRAW_FREE_PLACES, des));
+                    sendMessageAnotherPlayers(new Message(DRAW_PLACES, des));
+                    break;
                 }
             }
         }

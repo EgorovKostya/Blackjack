@@ -37,19 +37,26 @@ public class MessageListener implements Runnable {
             while ((message = messageInputStream.readMessage()) != null) {
                 switch (message.getType()) {
                     case DRAW_PLACES: {
-                        byte[] temp = message.getData();
-                        for (Player player: (ArrayList<Player>) Parser.deserialize(message.getData())) {
+                        ArrayList<Player> deserialize = (ArrayList<Player>) Parser.deserialize(message.getData());
+                        byte i = 0;
+                        for (Player player: deserialize) {
                             if (player != null) {
                                 controller.drawPlayerPlaces(player);
+                            } else {
+                                controller.deletePlayerPlace(i);
                             }
+                            i++;
                         }
                         break;
                     }
                     case SOMEONE_ENTERED_ROOM: {
                         Player player = (Player) Parser.deserialize(message.getData());
-                        System.out.println(player);
                         controller.drawPlayerPlaces(player);
                         break;
+                    }
+                    case DRAW_FREE_PLACES: {
+                        ArrayList<Player> players = (ArrayList<Player>) Parser.deserialize(message.getData());
+                        controller.drawFreePlaces(players);
                     }
                 }
             }
