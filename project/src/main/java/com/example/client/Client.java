@@ -4,6 +4,7 @@ import com.example.entity.Player;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
+import javafx.stage.Stage;
 import lombok.Data;
 
 import java.io.*;
@@ -20,6 +21,8 @@ public class Client {
 
     private Player player;
 
+    private Stage stage;
+
     public Client(Socket socket) {
         try {
 
@@ -29,9 +32,6 @@ public class Client {
         } catch (IOException e) {
             close(socket, messageOutputStream, messageInputStream);
         }
-    }
-
-    public Client() {
     }
 
 

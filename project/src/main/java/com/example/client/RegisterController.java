@@ -2,6 +2,7 @@ package com.example.client;
 
 import com.example.ClientApp;
 import com.example.entity.Player;
+import com.example.mapper.Parser;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
@@ -52,6 +53,8 @@ public class RegisterController implements Initializable {
     @FXML
     private Button submitButton;
 
+    private Client client;
+
     @SneakyThrows
     @FXML
     public void register(ActionEvent event){
@@ -76,13 +79,14 @@ public class RegisterController implements Initializable {
         }
 
         String fullName = fullNameField.getText();
-        controller.transfer(messageOutputStream, messageInputStream, Player.builder().username(fullName).build());
-        messageOutputStream.writeMessage(new Message(SERVER_DRAW_PLACES, "CHE".getBytes(StandardCharsets.UTF_8)));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         this.stage = stage;
+        controller.transfer(client,messageOutputStream, messageInputStream, Player.builder().username(fullName).build(), stage);
+        messageOutputStream.writeMessage(new Message(SERVER_DRAW_PLACES, "CHE".getBytes(StandardCharsets.UTF_8)));
         stage.setTitle("BlackJack!");
         stage.setScene(scene);
         stage.show();
+
     }
 
     private static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
@@ -111,15 +115,12 @@ public class RegisterController implements Initializable {
         this.controller = fxmlLoader.getController();
         Thread listener = new Thread(new MessageListener(client, controller));
         listener.start();
-        Socket finalSocket = socket;
+        this.client = client;
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                try {
-                    finalSocket.close();
-                    stage.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                messageOutputStream.writeMessage(new Message(PLAYER_LEAVE, Parser.serialize(client.getPlayer())));
+                messageOutputStream.writeMessage(new Message(PLAYER_LEAVE_THE_GAME, "leave garbage".getBytes(StandardCharsets.UTF_8)));
+                stage.close();
             }
         });
     }

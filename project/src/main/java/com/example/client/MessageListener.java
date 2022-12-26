@@ -5,6 +5,7 @@ import com.example.mapper.Parser;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
+import javafx.stage.Stage;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class MessageListener implements Runnable {
                     case DRAW_FREE_PLACES: {
                         ArrayList<Player> players = (ArrayList<Player>) Parser.deserialize(message.getData());
                         controller.drawFreePlaces(players);
+                        break;
                     }
                 }
             }

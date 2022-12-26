@@ -1,5 +1,6 @@
 package com.example.server;
 
+import com.example.client.Client;
 import com.example.entity.Player;
 import com.example.mapper.Parser;
 import com.example.protocol.Message;
@@ -8,8 +9,8 @@ import com.example.protocol.MessageOutputStream;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.example.protocol.Constant.*;
@@ -31,7 +32,6 @@ public class ClientHandler implements Runnable {
             messageOutputStream = new MessageOutputStream(socket.getOutputStream());
             clientHandlers.add(this);
         } catch (IOException e) {
-            close(socket, messageOutputStream, messageInputStream);
         }
     }
 
@@ -53,35 +53,41 @@ public class ClientHandler implements Runnable {
                 }
                 case PLAYER_LEAVE: {
                     Player player = (Player) Parser.deserialize(message.getData());
-                    for (byte i = 0; i < 5; i ++) {
+                    for (byte i = 0; i < 5; i++) {
                         if (Server.places.get(i) != null) {
                             if (player.getUsername().equals(Server.places.get(i).getUsername())) {
                                 Server.places.set(i, null);
                             }
                         }
                     }
-                    System.out.println(Server.places);
                     byte[] des = Parser.serialize(Server.places);
                     messageOutputStream.writeMessage(new Message(DRAW_FREE_PLACES, des));
                     sendMessageAnotherPlayers(new Message(DRAW_PLACES, des));
                     break;
                 }
+                case PLAYER_LEAVE_THE_GAME: {
+                    remove();
+                    break;
+                }
             }
         }
+        System.out.println(Server.places);
     }
+
+
     public void sendMessageAnotherPlayers(Message message) {
-        for (ClientHandler clientHandler: clientHandlers) {
+        for (ClientHandler clientHandler : clientHandlers) {
             if (!clientHandler.socket.equals(socket)) {
                 clientHandler.messageOutputStream.writeMessage(message);
             }
         }
     }
+
     public void remove() {
         clientHandlers.remove(this);
     }
 
     public void close(Socket socket, MessageOutputStream messageOutputStream, MessageInputStream messageInputStream) {
-        remove();
         try {
             if (messageOutputStream.getOutputStream() != null) {
                 messageOutputStream.getOutputStream().close();
@@ -98,4 +104,5 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
     }
+
 }

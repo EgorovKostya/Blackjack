@@ -3,7 +3,8 @@ package com.example.protocol;
 public class Constant {
 
     public static final byte TAKE_PLACE = 1; // -client send message with him PLACE ---- (String)
-    public static final byte PLAYER_LEAVE = 2;
+    public static final byte PLAYER_LEAVE = 2; // player leave place
+    public static final byte PLAYER_LEAVE_THE_GAME = 3; // player leave game
 
 
     public static final byte SEND_ID = 64; // -com.example.server send message with him ID(equals him place) --- (String)

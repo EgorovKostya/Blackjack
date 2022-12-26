@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class Controller {
     public Button button6;
 
     private Player player;
+
+    private Client client;
 
 
     public void onClickAction1(ActionEvent actionEvent) {
@@ -115,7 +118,11 @@ public class Controller {
         Platform.runLater(() -> button.setText(username));
     }
 
-    public void transfer(MessageOutputStream messageOutputStream, MessageInputStream messageInputStream, Player player) {
+    public void transfer(Client client, MessageOutputStream messageOutputStream,
+                         MessageInputStream messageInputStream, Player player, Stage stage) {
+        this.client = client;
+        client.setPlayer(player);
+        client.setStage(stage);
         this.messageOutputStream = messageOutputStream;
         this.messageInputStream = messageInputStream;
         this.player = player;
