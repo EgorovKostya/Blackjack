@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import lombok.SneakyThrows;
@@ -36,6 +37,8 @@ public class RegisterController implements Initializable {
     private Controller controller;
 
     private Scene scene;
+
+    private Stage stage;
 
     @FXML
     private TextField fullNameField;
@@ -76,6 +79,7 @@ public class RegisterController implements Initializable {
         controller.transfer(messageOutputStream, messageInputStream, Player.builder().username(fullName).build());
         messageOutputStream.writeMessage(new Message(SERVER_DRAW_PLACES, "CHE".getBytes(StandardCharsets.UTF_8)));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        this.stage = stage;
         stage.setTitle("BlackJack!");
         stage.setScene(scene);
         stage.show();
@@ -107,5 +111,16 @@ public class RegisterController implements Initializable {
         this.controller = fxmlLoader.getController();
         Thread listener = new Thread(new MessageListener(client, controller));
         listener.start();
+        Socket finalSocket = socket;
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                try {
+                    finalSocket.close();
+                    stage.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

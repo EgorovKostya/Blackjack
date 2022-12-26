@@ -43,7 +43,6 @@ public class Controller {
 
 
     public void onClickAction1(ActionEvent actionEvent) {
-        button1.setText("Вы");
         button1.setDisable(true);
         player.setPlaceId((byte) 1);
         byte[] des = Parser.serialize(player);
@@ -51,7 +50,6 @@ public class Controller {
     }
 
     public void onClickAction2(ActionEvent actionEvent) {
-        button2.setText("Вы");
         button2.setDisable(true);
         player.setPlaceId((byte) 2);
         byte[] des = Parser.serialize(player);
@@ -59,7 +57,6 @@ public class Controller {
     }
 
     public void onClickAction3(ActionEvent actionEvent) {
-        button3.setText("Вы");
         button3.setDisable(true);
         player.setPlaceId((byte) 3);
         byte[] des = Parser.serialize(player);
@@ -67,7 +64,6 @@ public class Controller {
     }
 
     public void onClickAction4(ActionEvent actionEvent) {
-        button4.setText("Вы");
         button4.setDisable(true);
         player.setPlaceId((byte) 4);
         byte[] des = Parser.serialize(player);
@@ -75,7 +71,6 @@ public class Controller {
     }
 
     public void onClickAction5(ActionEvent actionEvent) {
-        button5.setText("Вы");
         button5.setDisable(true);
         player.setPlaceId((byte) 5);
         byte[] des = Parser.serialize(player);
