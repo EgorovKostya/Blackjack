@@ -23,7 +23,7 @@
                   <Image url="@60ba843165cb1-transformed.png" />
                </image>
             </ImageView>
-            <Button fx:id="button3" mnemonicParsing="false" text="Зайти" onAction="#onClickAction3" translateX="10.0" translateY="200.0" />
+            <Button fx:id="button3" mnemonicParsing="false" onAction="#onClickAction3" text="Зайти" translateX="10.0" translateY="200.0" />
             <Button fx:id="button1" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction1" text="Зайти" translateX="-250.0" translateY="100.0" />
             <Label prefHeight="18.0" prefWidth="52.0" text="Дилер" textFill="#dd0909" textOverrun="CLIP" translateX="70.0" translateY="-20.0">
                <font>
@@ -31,7 +31,8 @@
                </font></Label>
             <Button fx:id="button2" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction2" text="Зайти" translateX="-165.0" translateY="180.0" />
             <Button fx:id="button4" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction4" text="Зайти" translateX="185.0" translateY="185.0" />
-            <Button fx:id="button5" layoutX="372.0" layoutY="180.0" mnemonicParsing="false"  onAction="#onClickAction5" text="Зайти" translateX="270.0" translateY="100.0" />
+            <Button fx:id="button5" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction5" text="Зайти" translateX="270.0" translateY="100.0" />
+            <Button fx:id="button6" layoutX="374.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickActionLeave" text="Покинуть игру" translateX="-240.0" translateY="-50.0" />
          </children>
       </StackPane>
    </children>
