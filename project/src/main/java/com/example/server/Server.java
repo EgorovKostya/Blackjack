@@ -54,7 +54,7 @@ public class Server {
         places.add(null);
         places.add(null);
         places.add(null);
-        ServerSocket serverSocket = new ServerSocket(5556);
+        ServerSocket serverSocket = new ServerSocket(5555);
         Server server = new Server(serverSocket);
         server.start();
     }
