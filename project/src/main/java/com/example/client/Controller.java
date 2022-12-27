@@ -9,15 +9,57 @@ import com.example.protocol.MessageOutputStream;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.example.protocol.Constant.*;
 
 public class Controller {
+    @FXML
+    public ImageView firstPlayerFirstCard;
+
+    @FXML
+    public ImageView firstPlayerSecondCard;
+
+    @FXML
+    public ImageView secondPlayerFirstCard;
+
+    @FXML
+    public ImageView secondPlayerSecondCard;
+
+    @FXML
+    public ImageView thirdPlayerFirstCard;
+
+    @FXML
+    public ImageView thirdPlayerSecondCard;
+
+    @FXML
+    public ImageView fourthPlayerFirstCard;
+
+    @FXML
+    public ImageView fourthPlayerSecondCard;
+
+    @FXML
+    public ImageView fifthPlayerFirstCard;
+
+    @FXML
+    public ImageView fifthPlayerSecondCard;
+
+    @FXML
+    public ImageView dealerFirstCart;
+
+    @FXML
+    public ImageView dealerSecondCart;
 
     private MessageInputStream messageInputStream;
 
@@ -179,29 +221,112 @@ public class Controller {
             switch (i) {
                 case 0: {
                     //рисовалка карт для дилера
+                    Image[] carts = getImageByHand(hand.get(0));
+                    Image secondCard = new Image("file:///C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\opponentCart.png");
+                    dealerFirstCart.setImage(carts[0]);
+                    dealerSecondCart.setImage(secondCard);
                     break;
                 }
                 case 1: {
                     //рисовалка карт для игрока под местом 1
+                    Image[] carts = getImageByHand(hand.get(1));
+                    firstPlayerFirstCard.setImage(carts[0]);
+                    firstPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
                 case 2: {
                     //рисовалка карт для игрока под местом 2
+                    Image[] carts = getImageByHand(hand.get(2));
+                    secondPlayerFirstCard.setImage(carts[0]);
+                    secondPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
                 case 3: {
                     //рисовалка карт для игрока под местом 3
+                    Image[] carts = getImageByHand(hand.get(3));
+                    thirdPlayerFirstCard.setImage(carts[0]);
+                    thirdPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
                 case 4: {
                     //рисовалка карт для игрока под местом 4
+                    Image[] carts = getImageByHand(hand.get(4));
+                    fourthPlayerFirstCard.setImage(carts[0]);
+                    fourthPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
                 case 5: {
                     //рисовалка карт для игрока под местом 5
+                    Image[] carts = getImageByHand(hand.get(5));
+                    fifthPlayerFirstCard.setImage(carts[0]);
+                    fifthPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
             }
         }
+    }
+
+    private Image[] getImageByHand(Hand hand) {
+
+        byte[] cards = hand.getCards();
+
+        String firstImagePath = takePath(cards[0]);
+
+        String secondImagePath = takePath(cards[1]);
+
+        return new Image[] {new Image(firstImagePath), new Image(secondImagePath)};
+    }
+
+    private String takePath(byte i) {
+        Random random = new Random();
+        String imagePath = null;
+        switch (i) {
+            case 2: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartTwo.png";
+                break;
+            }
+            case 3: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartThree.png";
+                break;
+            }
+            case 4: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartFour.png";
+                break;
+            }
+            case 5: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartFive.png";
+                break;
+            }
+            case 6: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartSix.jpg";
+                break;
+            }
+            case 7: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartSeven.png";
+                break;
+            }
+            case 8: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartEight.png";
+                break;
+            }
+            case 9: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartNine.png";
+                break;
+            }
+            case 10: {
+                String[] cartsWithTenValue = new String[] {"C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartTen.png",
+                        "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartDama.png",
+                        "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartKing.png",
+                        "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartValet.png"
+                };
+                imagePath = cartsWithTenValue[random.nextInt(4)];
+                break;
+            }
+            case 11: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartTuz.png";
+                break;
+            }
+        }
+        return "file:///" + imagePath;
     }
 }

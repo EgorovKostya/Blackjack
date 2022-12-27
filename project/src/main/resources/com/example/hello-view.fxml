@@ -11,28 +11,40 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <StackPane prefHeight="210.0" prefWidth="817.0" translateY="-100.0">
+      <StackPane fx:id="stackPane" prefHeight="210.0" prefWidth="817.0" translateY="-100.0">
          <children>
             <ImageView fitHeight="560.0" fitWidth="607.0" pickOnBounds="true" preserveRatio="true" translateY="100.0">
                <image>
                   <Image url="@new-casino-game.jpg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="357.0" fitWidth="308.0" pickOnBounds="true" preserveRatio="true" translateX="10.0" translateY="-30.0">
-               <image>
-                  <Image url="@60ba843165cb1-transformed.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="button3" mnemonicParsing="false" onAction="#onClickAction3" text="Зайти" translateX="10.0" translateY="200.0" />
-            <Button fx:id="button1" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction1" text="Зайти" translateX="-250.0" translateY="100.0" />
+            <Button fx:id="button3" mnemonicParsing="false" onAction="#onClickAction3" text="Зайти" translateX="10.0" translateY="220.0" />
+            <Button fx:id="button1" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction1" rotate="51.1" text="Зайти" translateX="-270.0" translateY="100.0" />
             <Label prefHeight="18.0" prefWidth="52.0" text="Дилер" textFill="#dd0909" textOverrun="CLIP" translateX="70.0" translateY="-20.0">
                <font>
                   <Font name="Book Antiqua" size="14.0" />
                </font></Label>
-            <Button fx:id="button2" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction2" text="Зайти" translateX="-165.0" translateY="180.0" />
-            <Button fx:id="button4" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction4" text="Зайти" translateX="185.0" translateY="185.0" />
-            <Button fx:id="button5" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction5" text="Зайти" translateX="270.0" translateY="100.0" />
+            <Button fx:id="button2" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction2" rotate="20.0" text="Зайти" translateX="-180.0" translateY="190.0" />
+            <Button fx:id="button4" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction4" rotate="-28.0" text="Зайти" translateX="190.0" translateY="185.0" />
+            <Button fx:id="button5" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction5" rotate="-51.6" text="Зайти" translateX="280.0" translateY="100.0" />
             <Button fx:id="leaveButton" layoutX="374.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickActionLeave" text="Покинуть игру" translateX="-240.0" translateY="-50.0" />
+            <ImageView fx:id="firstPlayerFirstCard" fitHeight="80.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" rotate="-137.5" translateX="-225.0" translateY="35.0" />
+            <ImageView fitHeight="187.0" fitWidth="309.0" pickOnBounds="true" preserveRatio="true" translateX="10.0" translateY="-30.0">
+               <image>
+                  <Image url="@60ba843165cb1-transformed.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="firstPlayerSecondCard" fitHeight="80.0" fitWidth="83.0" layoutX="356.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="-142.2" translateX="-200.0" translateY="50.0" />
+            <ImageView fx:id="secondPlayerFirstCard" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="26.6" translateX="-135.0" translateY="100.0" />
+            <ImageView fx:id="secondPlayerSecondCard" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="17.4" translateX="-110.0" translateY="110.0" />
+            <ImageView fx:id="thirdPlayerFirstCard" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="6.6" translateX="-10.0" translateY="130.0" />
+            <ImageView fx:id="thirdPlayerSecondCard" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="-4.4" translateX="15.0" translateY="130.0" />
+            <ImageView fx:id="fourthPlayerFirstCard" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="-22.2" translateX="115.0" translateY="110.0" />
+            <ImageView fx:id="fourthPlayerSecondCard" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="-28.7" translateX="135.0" translateY="100.0" />
+            <ImageView fx:id="fifthPlayerFirstCard" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="-55.3" translateX="200.0" translateY="45.0" />
+            <ImageView fx:id="fifthPlayerSecondCard" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" rotate="-64.7" translateX="210.0" translateY="25.0" />
+            <ImageView fx:id="dealerFirstCart" fitHeight="80.0" fitWidth="83.0" layoutX="356.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0" />
+            <ImageView fx:id="dealerSecondCart" fitHeight="80.0" fitWidth="83.0" layoutX="358.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" translateX="35.0" />
          </children>
       </StackPane>
    </children>
