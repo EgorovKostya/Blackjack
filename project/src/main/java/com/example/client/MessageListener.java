@@ -6,11 +6,9 @@ import com.example.mapper.Parser;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
-import javafx.stage.Stage;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static com.example.protocol.Constant.*;
 
@@ -76,8 +74,17 @@ public class MessageListener implements Runnable {
                     }
                     case DRAW_CARDS: {
                         ArrayList<Hand> hand = (ArrayList<Hand>) Parser.deserialize(message.getData());
-                        controller.drawCardsWhoAlredyPlay(hand);
+                        controller.drawCardsWhoAlreadyPlay(hand);
                         break;
+                    }
+                    case DRAW_PLUS_MINUS: {
+                        ArrayList<Player> players = (ArrayList<Player>) Parser.deserialize(message.getData());
+
+                        for (int i = 0; i < 5; i++) {
+                            if (client.getPlayer().getUsername().equals(players.get(i).getUsername())) {
+                                controller.drawPlusAndMinus(players.get(i).getPlaceId());
+                            }
+                        }
                     }
                 }
             }

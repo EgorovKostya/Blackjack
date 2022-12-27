@@ -49,7 +49,7 @@ public class ClientHandler implements Runnable {
                     Player player = (Player) Parser.deserialize(message.getData());
                     Server.places.set(player.getPlaceId() - 1, player);
                     System.out.println(Server.places);
-                    sendMessageToAllPlayers(new Message(SOMEONE_ENTERED_ROOM, Parser.serialize(player)));
+                    sendMessageToAllClients(new Message(SOMEONE_ENTERED_ROOM, Parser.serialize(player)));
                     byte cntOfOccupiedPlaces = 0;
                     for (byte i = 0; i < 5; i++) {
                         if (Server.places.get(i) != null) {
@@ -66,7 +66,8 @@ public class ClientHandler implements Runnable {
                         }
                         Server.hands = hands;
                         System.out.println(Parser.serialize(hands).length);
-                        sendMessageToAllPlayers(new Message(GAME_STARTED, Parser.serialize(hands)));
+                        sendMessageToAllClients(new Message(GAME_STARTED, Parser.serialize(hands)));
+                        sendMessageToAllClients(new Message(DRAW_PLUS_MINUS, Parser.serialize(Server.places)));
                     }
                     break;
                 }
@@ -102,7 +103,7 @@ public class ClientHandler implements Runnable {
         System.out.println(Server.places);
     }
 
-    private void sendMessageToAllPlayers(Message message) {
+    private void sendMessageToAllClients(Message message) {
         for (ClientHandler clientHandler : clientHandlers) {
             clientHandler.messageOutputStream.writeMessage(message);
         }

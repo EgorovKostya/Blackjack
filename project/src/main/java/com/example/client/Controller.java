@@ -9,15 +9,11 @@ import com.example.protocol.MessageOutputStream;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
@@ -60,6 +56,36 @@ public class Controller {
 
     @FXML
     public ImageView dealerSecondCart;
+
+    @FXML
+    public Button firstPlacePLus;
+
+    @FXML
+    public Button secondPlacePLus;
+
+    @FXML
+    public Button thirdPlacePLus;
+
+    @FXML
+    public Button fourthPlacePLus;
+
+    @FXML
+    public Button fifthPlacePLus;
+
+    @FXML
+    public Button firstPlaceMinus;
+
+    @FXML
+    public Button secondPlaceMinus;
+
+    @FXML
+    public Button thirdPlaceMinus;
+
+    @FXML
+    public Button fourthPlaceMinus;
+
+    @FXML
+    public Button fifthPlaceMinus;
 
     private MessageInputStream messageInputStream;
 
@@ -330,7 +356,55 @@ public class Controller {
         return "file:///" + imagePath;
     }
 
-    public void drawCardsWhoAlredyPlay(ArrayList<Hand> hand) {
+    public void drawCardsWhoAlreadyPlay(ArrayList<Hand> hand) {
         drawPLayersCards(hand);
+    }
+
+    public void drawPlusAndMinus(byte placeId) {
+        switch (placeId) {
+            case 1: {
+                firstPlaceMinus.setVisible(true);
+                firstPlacePLus.setVisible(true);
+                break;
+            }
+            case 2: {
+                secondPlaceMinus.setVisible(true);
+                secondPlacePLus.setVisible(true);
+                break;
+            }
+            case 3: {
+                thirdPlaceMinus.setVisible(true);
+                thirdPlacePLus.setVisible(true);
+                break;
+            }
+            case 4: {
+                fourthPlacePLus.setVisible(true);
+                fourthPlaceMinus.setVisible(true);
+                break;
+            }
+            case 5: {
+                fifthPlacePLus.setVisible(true);
+                fifthPlaceMinus.setVisible(true);
+                break;
+            }
+        }
+    }
+
+    public void giveOneMoreCardFirstPlace(ActionEvent actionEvent) {
+    }
+
+    public void giveOneMoreCardSecondPlace(ActionEvent actionEvent) {
+    }
+
+    public void giveOneMoreCardThirdPlace(ActionEvent actionEvent) {
+    }
+
+    public void giveOneMoreCardFourthPlace(ActionEvent actionEvent) {
+    }
+
+    public void giveOneMoreCardFifthPlace(ActionEvent actionEvent) {
+    }
+
+    public void stopTakenCard(ActionEvent actionEvent) {
     }
 }

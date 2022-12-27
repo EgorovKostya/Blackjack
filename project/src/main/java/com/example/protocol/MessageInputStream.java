@@ -31,11 +31,6 @@ public class MessageInputStream {
 
         byte[] data  = new byte[length];
 
-
-//
-//// 3)чтение типа сообщения (messageTypeLength байт)
-//        byte[] messageTypeBytes = new byte[messageTypeLength];
-//        in.read(messageTypeBytes,0,messageTypeLength);
         for (int i = 0; i < length; i++) {
             data[i] = (byte) inputStream.read();
         }
