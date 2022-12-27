@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -86,6 +87,24 @@ public class Controller {
 
     @FXML
     public Button fifthPlaceMinus;
+
+    @FXML
+    public Label firstPlaceScore;
+
+    @FXML
+    public Label secondPlaceScore;
+
+    @FXML
+    public Label thirdPlaceScore;
+
+    @FXML
+    public Label fourthPlaceScore;
+
+    @FXML
+    public Label fifthPlaceScore;
+
+    @FXML
+    public Label dealerScore;
 
     private MessageInputStream messageInputStream;
 

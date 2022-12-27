@@ -14,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -45,12 +44,6 @@ public class RegisterController implements Initializable {
     private TextField fullNameField;
 
     @FXML
-    private TextField emailIdField;
-
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
     private Button submitButton;
 
     private Client client;
@@ -63,18 +56,7 @@ public class RegisterController implements Initializable {
 
         if (fullNameField.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
-                    "Please enter your name");
-            return;
-        }
-
-        if (emailIdField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
-                    "Please enter your email id");
-            return;
-        }
-        if (passwordField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
-                    "Please enter a password");
+                    "Please enter your username");
             return;
         }
 

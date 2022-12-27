@@ -7,9 +7,9 @@
 <?import javafx.scene.text.*?>
 
 <VBox alignment="CENTER" prefHeight="618.0" prefWidth="815.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
    <children>
       <StackPane fx:id="stackPane" prefHeight="210.0" prefWidth="817.0" translateY="-100.0">
          <children>
@@ -55,6 +55,36 @@
             <Button fx:id="thirdPlaceMinus" ellipsisString="-" layoutX="384.0" layoutY="180.0" mnemonicParsing="false" onAction="#stopTakenCard" prefHeight="10.0" prefWidth="26.0" style="-fx-background-color: #ff0000;" text="-" textFill="#744545" translateX="24.0" translateY="194.0" visible="false" />
             <Button fx:id="fourthPlaceMinus" ellipsisString="-" layoutX="384.0" layoutY="180.0" mnemonicParsing="false" onAction="#stopTakenCard" prefHeight="10.0" prefWidth="26.0" rotate="-27.0" style="-fx-background-color: #ff0000;" text="-" textFill="#744545" translateX="189.0" translateY="156.0" visible="false" />
             <Button fx:id="fifthPlaceMinus" ellipsisString="-" layoutX="384.0" layoutY="180.0" mnemonicParsing="false" onAction="#stopTakenCard" prefHeight="10.0" prefWidth="26.0" rotate="-50.0" style="-fx-background-color: #ff0000;" text="-" textFill="#744545" translateX="269.0" translateY="74.0" visible="false" />
+            <Label fx:id="firstPlaceScore" rotate="40.2" textFill="#ea0a0a" translateX="-160.0" translateY="10.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="secondPlaceScore" layoutX="389.0" layoutY="182.0" rotate="18.4" textFill="#ea0a0a" translateX="-95.0" translateY="50.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="thirdPlaceScore" layoutX="389.0" layoutY="182.0" textFill="#ea0a0a" translateX="3.0" translateY="65.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="fourthPlaceScore" layoutX="389.0" layoutY="182.0" rotate="-26.6" textFill="#ea0a0a" translateX="85.0" translateY="50.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="fifthPlaceScore" layoutX="389.0" layoutY="182.0" rotate="-55.5" textFill="#ea0a0a" translateX="140.0" translateY="10.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="dealerScore" layoutX="398.0" layoutY="182.0" textFill="#ea0a0a" translateX="-70.0" translateY="-20.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
          </children>
       </StackPane>
    </children>
