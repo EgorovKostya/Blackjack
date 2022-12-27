@@ -1,5 +1,6 @@
 package com.example.server;
 
+import com.example.entity.Hand;
 import com.example.entity.Player;
 
 import java.io.IOException;
@@ -13,6 +14,8 @@ public class Server {
     public static List<Player> places = new ArrayList<>();
 
     private ServerSocket serverSocket;
+
+    public static List<Hand> hands = new ArrayList<>();
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;

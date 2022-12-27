@@ -329,4 +329,8 @@ public class Controller {
         }
         return "file:///" + imagePath;
     }
+
+    public void drawCardsWhoAlredyPlay(ArrayList<Hand> hand) {
+        drawPLayersCards(hand);
+    }
 }

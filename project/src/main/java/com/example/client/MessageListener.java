@@ -62,18 +62,21 @@ public class MessageListener implements Runnable {
                         break;
                     }
                     case DRAW_FREE_PLACES: {
-                        System.out.println(Arrays.toString(message.getData()));
                         ArrayList<Player> players = (ArrayList<Player>) Parser.deserialize(message.getData());
                         controller.drawFreePlaces(players);
                         break;
                     }
                     case GAME_STARTED: {
                         controller.disableLeaveButton();
-                        System.out.println(Arrays.toString(message.getData()));
                         ArrayList<Hand> hand = (ArrayList<Hand>) Parser.deserialize(message.getData());
                         playerHand = hand.get(client.getPlayer().getPlaceId());
                         serverHand = hand.get(0);
                         controller.drawPLayersCards(hand);
+                        break;
+                    }
+                    case DRAW_CARDS: {
+                        ArrayList<Hand> hand = (ArrayList<Hand>) Parser.deserialize(message.getData());
+                        controller.drawCardsWhoAlredyPlay(hand);
                         break;
                     }
                 }

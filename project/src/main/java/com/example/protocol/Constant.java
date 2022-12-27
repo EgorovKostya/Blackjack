@@ -13,4 +13,5 @@ public class Constant {
     public static final byte SERVER_DRAW_PLACES = 67;
     public static final byte DRAW_FREE_PLACES = 68;
     public static final byte GAME_STARTED = 69;
+    public static final byte DRAW_CARDS = 70;
 }

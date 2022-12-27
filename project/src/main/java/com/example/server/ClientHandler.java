@@ -64,6 +64,7 @@ public class ClientHandler implements Runnable {
                             hand.getCards()[1] = ChooseCard.getRandomCards();
                             hands.add(hand);
                         }
+                        Server.hands = hands;
                         System.out.println(Parser.serialize(hands).length);
                         sendMessageToAllPlayers(new Message(GAME_STARTED, Parser.serialize(hands)));
                     }
@@ -72,6 +73,10 @@ public class ClientHandler implements Runnable {
                 case SERVER_DRAW_PLACES: {
                     byte[] des = Parser.serialize(Server.places);
                     messageOutputStream.writeMessage(new Message(DRAW_PLACES, des));
+
+                    if (Server.hands.size() != 0) {
+                        messageOutputStream.writeMessage(new Message(DRAW_CARDS, Parser.serialize(Server.hands)));
+                    }
                     break;
                 }
                 case PLAYER_LEAVE: {
