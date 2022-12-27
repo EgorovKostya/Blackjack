@@ -16,5 +16,5 @@ public class Player implements Serializable {
     private String username;
     private String id;
     private byte placeId;
-    private int[] cards = new int[11];
+    private byte[] cards = new byte[11];
 }

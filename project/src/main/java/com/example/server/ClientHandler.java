@@ -1,16 +1,19 @@
 package com.example.server;
 
 import com.example.client.Client;
+import com.example.entity.Hand;
 import com.example.entity.Player;
 import com.example.mapper.Parser;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
+import com.example.util.ChooseCard;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.protocol.Constant.*;
@@ -24,6 +27,8 @@ public class ClientHandler implements Runnable {
     private MessageInputStream messageInputStream;
 
     private MessageOutputStream messageOutputStream;
+
+    private Hand serverHand;
 
     public ClientHandler(Socket socket) {
         try {
@@ -44,7 +49,25 @@ public class ClientHandler implements Runnable {
                     Player player = (Player) Parser.deserialize(message.getData());
                     Server.places.set(player.getPlaceId() - 1, player);
                     System.out.println(Server.places);
-                    sendMessageAnotherPlayers(new Message(SOMEONE_ENTERED_ROOM, Parser.serialize(player)));
+                    sendMessageToAllPlayers(new Message(SOMEONE_ENTERED_ROOM, Parser.serialize(player)));
+                    byte cntOfOccupiedPlaces = 0;
+                    for (byte i = 0; i < 5; i++) {
+                        if (Server.places.get(i) != null) {
+                            cntOfOccupiedPlaces++;
+                        }
+                    }
+                    if (cntOfOccupiedPlaces == 5) {
+                        ArrayList<Hand> hands = new ArrayList<>();
+                        for (byte i = 0; i < 6; i++) {
+                            Hand hand = new Hand();
+                            hand.getCards()[0] = ChooseCard.getRandomCards();
+                            hand.getCards()[1] = ChooseCard.getRandomCards();
+                            hands.add(hand);
+                        }
+                        System.out.println(Parser.serialize(hands).length);
+                        sendMessageToAllPlayers(new Message(GAME_STARTED, Parser.serialize(hands)));
+                    }
+                    break;
                 }
                 case SERVER_DRAW_PLACES: {
                     byte[] des = Parser.serialize(Server.places);
@@ -72,6 +95,12 @@ public class ClientHandler implements Runnable {
             }
         }
         System.out.println(Server.places);
+    }
+
+    private void sendMessageToAllPlayers(Message message) {
+        for (ClientHandler clientHandler : clientHandlers) {
+            clientHandler.messageOutputStream.writeMessage(message);
+        }
     }
 
 

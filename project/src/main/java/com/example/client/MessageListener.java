@@ -1,5 +1,6 @@
 package com.example.client;
 
+import com.example.entity.Hand;
 import com.example.entity.Player;
 import com.example.mapper.Parser;
 import com.example.protocol.Message;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.example.protocol.Constant.*;
 
@@ -21,6 +23,10 @@ public class MessageListener implements Runnable {
     private Client client;
 
     private Controller controller;
+
+    private Hand serverHand;
+
+    private Hand playerHand;
 
     public MessageListener(Client client, Controller controller) {
         this.client = client;
@@ -56,8 +62,18 @@ public class MessageListener implements Runnable {
                         break;
                     }
                     case DRAW_FREE_PLACES: {
+                        System.out.println(Arrays.toString(message.getData()));
                         ArrayList<Player> players = (ArrayList<Player>) Parser.deserialize(message.getData());
                         controller.drawFreePlaces(players);
+                        break;
+                    }
+                    case GAME_STARTED: {
+                        controller.disableLeaveButton();
+                        System.out.println(Arrays.toString(message.getData()));
+                        ArrayList<Hand> hand = (ArrayList<Hand>) Parser.deserialize(message.getData());
+                        playerHand = hand.get(client.getPlayer().getPlaceId());
+                        serverHand = hand.get(0);
+                        controller.drawPLayersCards(hand);
                         break;
                     }
                 }

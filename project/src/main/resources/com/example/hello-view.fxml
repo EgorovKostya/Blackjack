@@ -32,7 +32,7 @@
             <Button fx:id="button2" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction2" text="Зайти" translateX="-165.0" translateY="180.0" />
             <Button fx:id="button4" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction4" text="Зайти" translateX="185.0" translateY="185.0" />
             <Button fx:id="button5" layoutX="372.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickAction5" text="Зайти" translateX="270.0" translateY="100.0" />
-            <Button fx:id="button6" layoutX="374.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickActionLeave" text="Покинуть игру" translateX="-240.0" translateY="-50.0" />
+            <Button fx:id="leaveButton" layoutX="374.0" layoutY="180.0" mnemonicParsing="false" onAction="#onClickActionLeave" text="Покинуть игру" translateX="-240.0" translateY="-50.0" />
          </children>
       </StackPane>
    </children>

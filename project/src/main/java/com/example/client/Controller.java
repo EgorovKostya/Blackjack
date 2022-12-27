@@ -1,5 +1,6 @@
 package com.example.client;
 
+import com.example.entity.Hand;
 import com.example.entity.Player;
 import com.example.mapper.Parser;
 import com.example.protocol.Message;
@@ -38,7 +39,7 @@ public class Controller {
     public Button button5;
 
     @FXML
-    public Button button6;
+    public Button leaveButton;
 
     private Player player;
 
@@ -167,5 +168,40 @@ public class Controller {
             }
         }
         messageOutputStream.writeMessage(new Message(SERVER_DRAW_PLACES, "CHE".getBytes(StandardCharsets.UTF_8)));
+    }
+
+    public void disableLeaveButton() {
+        leaveButton.setDisable(true);
+    }
+
+    public void drawPLayersCards(ArrayList<Hand> hand) {
+        for (byte i = 0; i < 6; i++) {
+            switch (i) {
+                case 0: {
+                    //рисовалка карт для дилера
+                    break;
+                }
+                case 1: {
+                    //рисовалка карт для игрока под местом 1
+                    break;
+                }
+                case 2: {
+                    //рисовалка карт для игрока под местом 2
+                    break;
+                }
+                case 3: {
+                    //рисовалка карт для игрока под местом 3
+                    break;
+                }
+                case 4: {
+                    //рисовалка карт для игрока под местом 4
+                    break;
+                }
+                case 5: {
+                    //рисовалка карт для игрока под местом 5
+                    break;
+                }
+            }
+        }
     }
 }

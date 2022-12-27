@@ -1,7 +1,6 @@
 package com.example.mapper;
 
 
-import com.example.entity.Place;
 import lombok.SneakyThrows;
 
 import java.io.ByteArrayInputStream;
