@@ -86,12 +86,32 @@ public class MessageListener implements Runnable {
                     }
                     case DRAW_PLUS_MINUS: {
                         ArrayList<Player> players = (ArrayList<Player>) Parser.deserialize(message.getData());
-
                         for (int i = 0; i < 5; i++) {
                             if (client.getPlayer().getUsername().equals(players.get(i).getUsername())) {
                                 controller.drawPlusAndMinus(players.get(i).getPlaceId());
                             }
                         }
+                        break;
+                    }
+                    case DRAW_SCORES: {
+                        ArrayList<Hand> hands = (ArrayList<Hand>) Parser.deserialize(message.getData());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.drawPlayersScore(hands);
+                            }
+                        });
+                        break;
+                    }
+                    case YOU_WON_GAME: {
+                        Player player = (Player) Parser.deserialize(message.getData());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.drawWonMessage(player.getPlaceId());
+                            }
+                        });
+                        break;
                     }
                 }
             }

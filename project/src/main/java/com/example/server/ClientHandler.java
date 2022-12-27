@@ -1,6 +1,5 @@
 package com.example.server;
 
-import com.example.client.Client;
 import com.example.entity.Hand;
 import com.example.entity.Player;
 import com.example.mapper.Parser;
@@ -11,9 +10,7 @@ import com.example.util.ChooseCard;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.example.protocol.Constant.*;
@@ -68,6 +65,11 @@ public class ClientHandler implements Runnable {
                         System.out.println(Parser.serialize(hands).length);
                         sendMessageToAllClients(new Message(GAME_STARTED, Parser.serialize(hands)));
                         sendMessageToAllClients(new Message(DRAW_PLUS_MINUS, Parser.serialize(Server.places)));
+                        for (byte i = 1; i < 6; i++) {
+                            if (check21Win(hands.get(i))) {
+                                messageOutputStream.writeMessage(new Message(YOU_WON_GAME, Parser.serialize(Server.places.get(i - 1))));
+                            }
+                        }
                     }
                     break;
                 }
@@ -77,6 +79,7 @@ public class ClientHandler implements Runnable {
 
                     if (Server.hands.size() != 0) {
                         messageOutputStream.writeMessage(new Message(DRAW_CARDS, Parser.serialize(Server.hands)));
+                        messageOutputStream.writeMessage(new Message(DRAW_SCORES, Parser.serialize(Server.hands)));
                     }
                     break;
                 }
@@ -101,6 +104,14 @@ public class ClientHandler implements Runnable {
             }
         }
         System.out.println(Server.places);
+    }
+
+    private boolean check21Win(Hand hand) {
+        byte sum = 0;
+        for (byte rank: hand.getCards()) {
+            sum += rank;
+        }
+        return sum == 21;
     }
 
     private void sendMessageToAllClients(Message message) {

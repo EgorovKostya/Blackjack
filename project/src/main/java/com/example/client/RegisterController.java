@@ -98,12 +98,5 @@ public class RegisterController implements Initializable {
         Thread listener = new Thread(new MessageListener(client, controller));
         listener.start();
         this.client = client;
-        scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                messageOutputStream.writeMessage(new Message(PLAYER_LEAVE, Parser.serialize(client.getPlayer())));
-                messageOutputStream.writeMessage(new Message(PLAYER_LEAVE_THE_GAME, "leave garbage".getBytes(StandardCharsets.UTF_8)));
-                stage.close();
-            }
-        });
     }
 }

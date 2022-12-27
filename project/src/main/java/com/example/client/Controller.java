@@ -9,11 +9,13 @@ import com.example.protocol.MessageOutputStream;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -262,12 +264,12 @@ public class Controller {
         leaveButton.setDisable(true);
     }
 
-    public void drawPLayersCards(ArrayList<Hand> hand) {
+    public void drawPLayersCards(ArrayList<Hand> hands) {
         for (byte i = 0; i < 6; i++) {
             switch (i) {
                 case 0: {
                     //рисовалка карт для дилера
-                    Image[] carts = getImageByHand(hand.get(0));
+                    Image[] carts = getImageByHand(hands.get(0));
                     Image secondCard = new Image("file:///C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\opponentCart.png");
                     dealerFirstCart.setImage(carts[0]);
                     dealerSecondCart.setImage(secondCard);
@@ -275,35 +277,35 @@ public class Controller {
                 }
                 case 1: {
                     //рисовалка карт для игрока под местом 1
-                    Image[] carts = getImageByHand(hand.get(1));
+                    Image[] carts = getImageByHand(hands.get(1));
                     firstPlayerFirstCard.setImage(carts[0]);
                     firstPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
                 case 2: {
                     //рисовалка карт для игрока под местом 2
-                    Image[] carts = getImageByHand(hand.get(2));
+                    Image[] carts = getImageByHand(hands.get(2));
                     secondPlayerFirstCard.setImage(carts[0]);
                     secondPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
                 case 3: {
                     //рисовалка карт для игрока под местом 3
-                    Image[] carts = getImageByHand(hand.get(3));
+                    Image[] carts = getImageByHand(hands.get(3));
                     thirdPlayerFirstCard.setImage(carts[0]);
                     thirdPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
                 case 4: {
                     //рисовалка карт для игрока под местом 4
-                    Image[] carts = getImageByHand(hand.get(4));
+                    Image[] carts = getImageByHand(hands.get(4));
                     fourthPlayerFirstCard.setImage(carts[0]);
                     fourthPlayerSecondCard.setImage(carts[1]);
                     break;
                 }
                 case 5: {
                     //рисовалка карт для игрока под местом 5
-                    Image[] carts = getImageByHand(hand.get(5));
+                    Image[] carts = getImageByHand(hands.get(5));
                     fifthPlayerFirstCard.setImage(carts[0]);
                     fifthPlayerSecondCard.setImage(carts[1]);
                     break;
@@ -376,8 +378,8 @@ public class Controller {
         return "file:///" + imagePath;
     }
 
-    public void drawCardsWhoAlreadyPlay(ArrayList<Hand> hand) {
-        drawPLayersCards(hand);
+    public void drawCardsWhoAlreadyPlay(ArrayList<Hand> hands) {
+        drawPLayersCards(hands);
     }
 
     public void drawPlusAndMinus(byte placeId) {
@@ -432,7 +434,7 @@ public class Controller {
         for (byte i = 0; i < 6; i++) {
             switch (i) {
                 case 0: {
-                    dealerScore.setText(getCardsSum(hands.get(i)));
+                    dealerScore.setText(String.valueOf(hands.get(i).getCards()[0]));
                     break;
                 }
                 case 1: {
@@ -464,6 +466,58 @@ public class Controller {
         for (byte rank : hand.getCards()) {
             sum += rank;
         }
+        if (sum == 22) {
+            sum = 12;
+        }
         return String.valueOf(sum);
+    }
+
+    public void drawWonMessage(byte placeId) {
+        drawWinScene();
+        hideMinusAndPlus(placeId);
+    }
+
+    private void hideMinusAndPlus(byte placeId) {
+        switch (placeId) {
+            case 1 : {
+                firstPlaceMinus.setVisible(false);
+                firstPlacePLus.setVisible(false);
+                break;
+            }
+            case 2 : {
+                secondPlaceMinus.setVisible(false);
+                secondPlacePLus.setVisible(false);
+                break;
+            }
+            case 3 : {
+                thirdPlaceMinus.setVisible(false);
+                thirdPlacePLus.setVisible(false);
+                break;
+            }
+            case 4 : {
+                fourthPlaceMinus.setVisible(false);
+                fourthPlacePLus.setVisible(false);
+                break;
+            }
+            case 5 : {
+                fifthPlaceMinus.setVisible(false);
+                fifthPlacePLus.setVisible(false);
+                break;
+            }
+
+        }
+    }
+
+    private void drawWinScene() {
+        showAlert(Alert.AlertType.INFORMATION, "Congratulations!",
+                "You won dealer");
+    }
+
+    private static void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 }
