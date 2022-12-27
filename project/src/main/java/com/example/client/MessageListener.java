@@ -6,6 +6,7 @@ import com.example.mapper.Parser;
 import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
+import javafx.application.Platform;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -66,10 +67,16 @@ public class MessageListener implements Runnable {
                     }
                     case GAME_STARTED: {
                         controller.disableLeaveButton();
-                        ArrayList<Hand> hand = (ArrayList<Hand>) Parser.deserialize(message.getData());
-                        playerHand = hand.get(client.getPlayer().getPlaceId());
-                        serverHand = hand.get(0);
-                        controller.drawPLayersCards(hand);
+                        ArrayList<Hand> hands = (ArrayList<Hand>) Parser.deserialize(message.getData());
+                        playerHand = hands.get(client.getPlayer().getPlaceId());
+                        serverHand = hands.get(0);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.drawPlayersScore(hands);
+                            }
+                        });
+                        controller.drawPLayersCards(hands);
                         break;
                     }
                     case DRAW_CARDS: {
