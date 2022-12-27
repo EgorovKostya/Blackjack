@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import static com.example.protocol.Constant.*;
@@ -425,5 +426,44 @@ public class Controller {
     }
 
     public void stopTakenCard(ActionEvent actionEvent) {
+    }
+
+    public void drawPlayersScore(ArrayList<Hand> hands) {
+        for (byte i = 0; i < 6; i++) {
+            switch (i) {
+                case 0: {
+                    dealerScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+                case 1: {
+                    firstPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+                case 2: {
+                    secondPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+                case 3: {
+                    thirdPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+                case 4: {
+                    fourthPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+                case 5: {
+                    fifthPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+            }
+        }
+    }
+
+    private String getCardsSum(Hand hand) {
+        byte sum = 0;
+        for (byte rank : hand.getCards()) {
+            sum += rank;
+        }
+        return String.valueOf(sum);
     }
 }
