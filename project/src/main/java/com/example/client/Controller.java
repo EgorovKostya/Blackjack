@@ -135,7 +135,6 @@ public class Controller {
 
     private Client client;
 
-
     public void onClickAction1(ActionEvent actionEvent) {
         button1.setDisable(true);
         player.setPlaceId((byte) 1);
@@ -318,9 +317,16 @@ public class Controller {
 
         byte[] cards = hand.getCards();
 
-        String firstImagePath = takePath(cards[0]);
+        String secondImagePath = null;
+        String firstImagePath = null;
+        for (int i = cards.length - 1; i >= 0; i--) {
+            if (cards[i] != 0) {
+                secondImagePath = takePath(cards[i]);
+                firstImagePath = takePath(cards[i - 1]);
+                break;
+            }
+        }
 
-        String secondImagePath = takePath(cards[1]);
 
         return new Image[] {new Image(firstImagePath), new Image(secondImagePath)};
     }
@@ -413,21 +419,23 @@ public class Controller {
     }
 
     public void giveOneMoreCardFirstPlace(ActionEvent actionEvent) {
+        messageOutputStream.writeMessage(new Message(PLAYER_TAKE_ONE_MORE_CARD, Parser.serialize(new String("1"))));
     }
 
     public void giveOneMoreCardSecondPlace(ActionEvent actionEvent) {
+        messageOutputStream.writeMessage(new Message(PLAYER_TAKE_ONE_MORE_CARD, Parser.serialize(new String("2"))));
     }
 
     public void giveOneMoreCardThirdPlace(ActionEvent actionEvent) {
+        messageOutputStream.writeMessage(new Message(PLAYER_TAKE_ONE_MORE_CARD, Parser.serialize(new String("3"))));
     }
 
     public void giveOneMoreCardFourthPlace(ActionEvent actionEvent) {
+        messageOutputStream.writeMessage(new Message(PLAYER_TAKE_ONE_MORE_CARD, Parser.serialize(new String("4"))));
     }
 
     public void giveOneMoreCardFifthPlace(ActionEvent actionEvent) {
-    }
-
-    public void stopTakenCard(ActionEvent actionEvent) {
+        messageOutputStream.writeMessage(new Message(PLAYER_TAKE_ONE_MORE_CARD, Parser.serialize(new String("5"))));
     }
 
     public void drawPlayersScore(ArrayList<Hand> hands) {
@@ -477,7 +485,7 @@ public class Controller {
         hideMinusAndPlus(placeId);
     }
 
-    private void hideMinusAndPlus(byte placeId) {
+    private void hideMinusAndPlus(int placeId) {
         switch (placeId) {
             case 1 : {
                 firstPlaceMinus.setVisible(false);
@@ -510,7 +518,7 @@ public class Controller {
 
     private void drawWinScene() {
         showAlert(Alert.AlertType.INFORMATION, "Congratulations!",
-                "You won dealer");
+                client.getPlayer().getUsername() + " won dealer");
     }
 
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
@@ -519,5 +527,81 @@ public class Controller {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.show();
+    }
+
+    public void stopTakenCardFirstPlace(ActionEvent actionEvent) {
+        hideMinusAndPlus(1);
+        messageOutputStream.writeMessage(new Message(PLAYER_DONT_TAKEN_CARD_ANYMORE, Parser.serialize(new String("1"))));
+    }
+
+    public void stopTakenCardSecondPlace(ActionEvent actionEvent) {
+        hideMinusAndPlus(2);
+        messageOutputStream.writeMessage(new Message(PLAYER_DONT_TAKEN_CARD_ANYMORE, Parser.serialize(new String("2"))));
+    }
+
+    public void stopTakenCardThirdPlace(ActionEvent actionEvent) {
+        hideMinusAndPlus(3);
+        messageOutputStream.writeMessage(new Message(PLAYER_DONT_TAKEN_CARD_ANYMORE, Parser.serialize(new String("3"))));
+    }
+
+    public void stopTakenCardFourthPlace(ActionEvent actionEvent) {
+        hideMinusAndPlus(4);
+        messageOutputStream.writeMessage(new Message(PLAYER_DONT_TAKEN_CARD_ANYMORE, Parser.serialize(new String("4"))));
+    }
+
+    public void stopTakenCardFifthPlace(ActionEvent actionEvent) {
+        hideMinusAndPlus(5);
+        messageOutputStream.writeMessage(new Message(PLAYER_DONT_TAKEN_CARD_ANYMORE, Parser.serialize(new String("5"))));
+    }
+
+    public void drawLoserMessage(byte placeId) {
+        drawLoserScene();
+        hideMinusAndPlus(placeId);
+    }
+    private void drawLoserScene() {
+        showAlert(Alert.AlertType.INFORMATION, "Noob!",
+                client.getPlayer().getUsername() + " loser!");
+    }
+
+    public void drawTwoLastCards(ArrayList<Hand> hands) {
+        drawPLayersCards(hands);
+    }
+    public void drawPlayersScoreMore(ArrayList<Hand> hands) {
+        for (byte i = 0; i < 6; i++) {
+            switch (i) {
+                case 0: {
+                    dealerScore.setText(String.valueOf(hands.get(i).getCards()[0]));
+                    break;
+                }
+                case 1: {
+                    firstPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
+                    break;
+                }
+                case 2: {
+                    secondPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+                case 3: {
+                    thirdPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+                case 4: {
+                    fourthPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+                case 5: {
+                    fifthPlaceScore.setText(getCardsSum(hands.get(i)));
+                    break;
+                }
+            }
+        }
+    }
+
+    private String getCardsSumSecondary(Hand hand) {
+        byte sum = 0;
+        for (byte rank : hand.getCards()) {
+            sum += rank;
+        }
+        return String.valueOf(sum);
     }
 }

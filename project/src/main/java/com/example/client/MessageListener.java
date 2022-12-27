@@ -113,6 +113,33 @@ public class MessageListener implements Runnable {
                         });
                         break;
                     }
+                    case DRAW_EXTRA_CART: {
+                        ArrayList<Hand> hands = (ArrayList<Hand>) Parser.deserialize(message.getData());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.drawTwoLastCards(hands);
+                            }
+                        });
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.drawPlayersScoreMore(hands);
+
+                            }
+                        });
+                        break;
+                    }
+                    case YOU_LOSE_GAME: {
+                        Player player = (Player) Parser.deserialize(message.getData());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.drawLoserMessage(player.getPlaceId());
+                            }
+                        });
+                        break;
+                    }
                 }
             }
 

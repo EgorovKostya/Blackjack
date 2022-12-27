@@ -21,6 +21,10 @@ public class Server {
 
     public static List<String> answers = new ArrayList<>();
 
+    public static List<String> winnersWith21 = new ArrayList<>();
+
+    public static List<String> losersMoreThan21 = new ArrayList<>();
+
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
 

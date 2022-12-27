@@ -67,7 +67,11 @@ public class ClientHandler implements Runnable {
                         sendMessageToAllClients(new Message(DRAW_PLUS_MINUS, Parser.serialize(Server.places)));
                         for (byte i = 1; i < 6; i++) {
                             if (check21Win(hands.get(i))) {
+                                System.out.println(Server.places.get(i - 1));
+                                System.out.println("----");
                                 messageOutputStream.writeMessage(new Message(YOU_WON_GAME, Parser.serialize(Server.places.get(i - 1))));
+                                Server.answers.add(String.valueOf(i));
+                                Server.winnersWith21.add(String.valueOf(i));
                             }
                         }
                     }
@@ -101,9 +105,52 @@ public class ClientHandler implements Runnable {
                     remove();
                     break;
                 }
+                case PLAYER_DONT_TAKEN_CARD_ANYMORE: {
+                    String placeId = (String) Parser.deserialize(message.getData());
+                    Server.answers.add(placeId);
+                    if (Server.answers.size() == 5) {
+                        //логика с игрой дилера
+                        //перевернуть свою карту, добрать в случае необходимости
+                    }
+                    System.out.println(Server.answers);
+                    break;
+                }
+                case PLAYER_TAKE_ONE_MORE_CARD: {
+                    String placeId = (String) Parser.deserialize(message.getData());
+                    Hand hand = Server.hands.get(Integer.parseInt(placeId));
+                    giveOneMoreCard(hand);
+                    sendMessageToAllClients(new Message(DRAW_EXTRA_CART, Parser.serialize(Server.hands)));
+                    if (checkOverMaximum(hand)) {
+                        messageOutputStream.writeMessage(new Message(YOU_LOSE_GAME, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
+                        Server.answers.add(placeId);
+                        Server.losersMoreThan21.add(placeId);
+                        if (Server.answers.size() == 5) {
+                            //логика с игрой дилера
+                            //перевернуть свою карту, добрать в случае необходимости
+                        }
+                    }
+                    System.out.println(Server.hands);
+                    break;
+                }
             }
         }
-        System.out.println(Server.places);
+    }
+
+    private boolean checkOverMaximum(Hand hand) {
+        byte sum = 0;
+        for (byte rank: hand.getCards()) {
+            sum += rank;
+        }
+        return sum > 21;
+    }
+
+    private void giveOneMoreCard(Hand hand) {
+        for (byte i = 2; i < hand.getCards().length; i++) {
+            if (hand.getCards()[i] == 0) {
+                hand.getCards()[i] = ChooseCard.getRandomCards();
+                break;
+            }
+        }
     }
 
     private boolean check21Win(Hand hand) {
