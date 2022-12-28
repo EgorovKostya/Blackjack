@@ -93,7 +93,7 @@ public class RegisterController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Socket socket = null;
         try {
-            socket = new Socket("localhost",5555);
+            socket = new Socket("localhost",5556);
         } catch (IOException e) {
             e.printStackTrace();
         }

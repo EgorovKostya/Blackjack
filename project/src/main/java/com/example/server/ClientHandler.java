@@ -95,51 +95,18 @@ public class ClientHandler implements Runnable {
                     break;
                 }
                 case PLAYER_LEAVE: {
-                    Player player = (Player) Parser.deserialize(message.getData());
-                    for (byte i = 0; i < 5; i++) {
-                        if (Server.places.get(i) != null) {
-                            if (player.getUsername().equals(Server.places.get(i).getUsername())) {
-                                Server.places.set(i, null);
-                            }
-                        }
-                    }
-                    messageOutputStream.writeMessage(new Message(PLAYER_RESET_PLACES, "FDFS".getBytes(StandardCharsets.UTF_8)));
-                    byte[] des = Parser.serialize(Server.places);
-                    messageOutputStream.writeMessage(new Message(DRAW_FREE_PLACES, des));
-                    sendMessageAnotherPlayers(new Message(DRAW_PLACES, des));
+                    leavePlayer(message);
                     break;
                 }
                 case PLAYER_LEAVE_THE_GAME: {
-                    Player player = (Player) Parser.deserialize(message.getData());
-                    for (byte i = 0; i < 5; i++) {
-                        if (Server.places.get(i) != null) {
-                            if (player.getUsername().equals(Server.places.get(i).getUsername())) {
-                                Server.places.set(i, null);
-                            }
-                        }
-                    }
-                    messageOutputStream.writeMessage(new Message(PLAYER_RESET_PLACES, "FDFS".getBytes(StandardCharsets.UTF_8)));
-                    byte[] des = Parser.serialize(Server.places);
-                    messageOutputStream.writeMessage(new Message(DRAW_FREE_PLACES, des));
-                    sendMessageAnotherPlayers(new Message(DRAW_PLACES, des));
+                    leavePlayer(message);
                     remove();
                     close(socket, messageOutputStream, messageInputStream);
                     break;
                 }
                 case PLAYER_DONT_TAKEN_CARD_ANYMORE: {
                     String placeId = (String) Parser.deserialize(message.getData());
-                    Server.answers.add(placeId);
-                    Server.notPermanentPlayers.add(placeId);
-                    if (Server.answers.size() == 5) {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        sendMessageToAllClients(new Message(DRAW_DEALER_CARDS, Parser.serialize(Server.hands.get(0))));
-                        //логика с игрой дилера
-                        dealerMove();
-                    }
+                    addPlaceId(placeId);
                     System.out.println(Server.answers);
                     break;
                 }
@@ -150,24 +117,43 @@ public class ClientHandler implements Runnable {
                     sendMessageToAllClients(new Message(DRAW_EXTRA_CART, Parser.serialize(Server.hands)));
                     if (checkOverMaximum(hand)) {
                         messageOutputStream.writeMessage(new Message(OVER_MAXIMUM, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
-                        Server.answers.add(placeId);
-                        Server.notPermanentPlayers.add(placeId);
-                        if (Server.answers.size() == 5) {
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            sendMessageToAllClients(new Message(DRAW_DEALER_CARDS, Parser.serialize(Server.hands.get(0))));
-                            //логика с игрой дилера
-                            dealerMove();
-                        }
+                        addPlaceId(placeId);
                     }
                     System.out.println(Server.hands);
                     break;
                 }
             }
         }
+    }
+
+    private void addPlaceId(String placeId) {
+        Server.answers.add(placeId);
+        Server.notPermanentPlayers.add(placeId);
+        if (Server.answers.size() == 5) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            sendMessageToAllClients(new Message(DRAW_DEALER_CARDS, Parser.serialize(Server.hands.get(0))));
+            //логика с игрой дилера
+            dealerMove();
+        }
+    }
+
+    private void leavePlayer(Message message) {
+        Player player = (Player) Parser.deserialize(message.getData());
+        for (byte i = 0; i < 5; i++) {
+            if (Server.places.get(i) != null) {
+                if (player.getUsername().equals(Server.places.get(i).getUsername())) {
+                    Server.places.set(i, null);
+                }
+            }
+        }
+        messageOutputStream.writeMessage(new Message(PLAYER_RESET_PLACES, "FDFS".getBytes(StandardCharsets.UTF_8)));
+        byte[] des = Parser.serialize(Server.places);
+        messageOutputStream.writeMessage(new Message(DRAW_FREE_PLACES, des));
+        sendMessageAnotherPlayers(new Message(DRAW_PLACES, des));
     }
 
     private void dealerMove() {
