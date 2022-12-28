@@ -118,6 +118,7 @@ public class ClientHandler implements Runnable {
                 case PLAYER_DONT_TAKEN_CARD_ANYMORE: {
                     String placeId = (String) Parser.deserialize(message.getData());
                     Server.answers.add(placeId);
+                    Server.notPermanentPlayers.add(placeId);
                     if (Server.answers.size() == 5) {
                         try {
                             Thread.sleep(2000);
@@ -137,9 +138,9 @@ public class ClientHandler implements Runnable {
                     giveOneMoreCard(hand);
                     sendMessageToAllClients(new Message(DRAW_EXTRA_CART, Parser.serialize(Server.hands)));
                     if (checkOverMaximum(hand)) {
-                        messageOutputStream.writeMessage(new Message(YOU_LOSE_GAME, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
+                        messageOutputStream.writeMessage(new Message(OVER_MAXIMUM, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
                         Server.answers.add(placeId);
-                        Server.losersMoreThan21.add(placeId);
+                        Server.notPermanentPlayers.add(placeId);
                         if (Server.answers.size() == 5) {
                             try {
                                 Thread.sleep(2000);
@@ -161,22 +162,35 @@ public class ClientHandler implements Runnable {
     private void dealerMove() {
         System.out.println(Server.hands.get(0));
         System.out.println(1);
-        if (getCardsSum(Server.hands.get(0)) >= 17 && getCardsSum(Server.hands.get(0)) <= 21) {
+        if (getCardsSum(Server.hands.get(0)) >= 17) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             dealerStopTakenCard();
-            return;
-        }
-        if (getCardsSum(Server.hands.get(0)) >= 22) {
-            dealerLoseGame();
             return;
         }
         dealerStep();
     }
 
-    private void dealerLoseGame() {
-    }
-
     private void dealerStopTakenCard() {
-
+        System.out.println(Server.notPermanentPlayers);
+        for (String placeId: Server.notPermanentPlayers) {
+            int dealerSum = getCardsSum(Server.hands.get(0));
+            int playerSum = getCardsSum(Server.hands.get(Integer.parseInt(placeId)));
+            System.out.println( dealerSum + " " + playerSum);
+            if (dealerSum == playerSum) {
+                System.out.println(placeId + "player draw");
+                messageOutputStream.writeMessage(new Message(GAME_RESULT_DRAW, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
+            } else if ((dealerSum < playerSum && dealerSum >= 22) || (playerSum < dealerSum && dealerSum < 22) || (playerSum >= 22 && dealerSum < 22)) {
+                System.out.println(placeId + "player lose");
+                messageOutputStream.writeMessage(new Message(YOU_LOSE_GAME, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
+            } else {
+                System.out.println(placeId + "player won");
+                messageOutputStream.writeMessage(new Message(YOU_WON_GAME, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
+            }
+        }
     }
 
     private void dealerStep() {

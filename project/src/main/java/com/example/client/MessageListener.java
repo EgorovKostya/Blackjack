@@ -96,8 +96,10 @@ public class MessageListener implements Runnable {
                     case DRAW_PLUS_MINUS: {
                         ArrayList<Player> players = (ArrayList<Player>) Parser.deserialize(message.getData());
                         for (int i = 0; i < 5; i++) {
-                            if (client.getPlayer().getUsername().equals(players.get(i).getUsername())) {
-                                controller.drawPlusAndMinus(players.get(i).getPlaceId());
+                            if (client.getPlayer() != null) {
+                                if (client.getPlayer().getUsername().equals(players.get(i).getUsername())) {
+                                    controller.drawPlusAndMinus(players.get(i).getPlaceId());
+                                }
                             }
                         }
                         break;
@@ -169,6 +171,26 @@ public class MessageListener implements Runnable {
                         });
                         break;
                     }
+                    case OVER_MAXIMUM: {
+                        Player player = (Player) Parser.deserialize(message.getData());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.hideMinusAndPlus(player.getPlaceId());
+                            }
+                        });
+                        break;
+                    }
+                    case GAME_RESULT_DRAW: {
+                        Player player = (Player) Parser.deserialize(message.getData());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.drawDrawMessage(player);
+                            }
+                        });
+                        break;
+                    }
                 }
             }
 
@@ -202,6 +224,4 @@ public class MessageListener implements Runnable {
         }
         return sum == 21;
     }
-
-
 }

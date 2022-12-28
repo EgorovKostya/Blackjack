@@ -483,19 +483,16 @@ public class Controller {
         for (byte rank : hand.getCards()) {
             sum += rank;
         }
-        if (sum == 22) {
-            sum = 12;
-        }
         return String.valueOf(sum);
     }
 
     public void drawWonMessage(Player player) {
         System.out.println(player);
-        drawWinScene(player.getUsername());
+        drawWinScene(player.getUsername(), player.getPlaceId());
         hideMinusAndPlus(player.getPlaceId());
     }
 
-    private void hideMinusAndPlus(int placeId) {
+    public void hideMinusAndPlus(int placeId) {
         switch (placeId) {
             case 1 : {
                 firstPlaceMinus.setVisible(false);
@@ -526,9 +523,9 @@ public class Controller {
         }
     }
 
-    private void drawWinScene(String username) {
+    private void drawWinScene(String username, byte placeId) {
         showAlert(Alert.AlertType.INFORMATION, "Congratulations!",
-                username + " won dealer");
+                username + " " + placeId + " won dealer");
     }
 
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
@@ -565,12 +562,12 @@ public class Controller {
     }
 
     public void drawLoserMessage(Player player) {
-        drawLoserScene(player.getUsername());
+        drawLoserScene(player.getUsername(), player.getPlaceId());
         hideMinusAndPlus(player.getPlaceId());
     }
-    private void drawLoserScene(String username) {
+    private void drawLoserScene(String username, byte placeId) {
         showAlert(Alert.AlertType.INFORMATION, "Noob!",
-                username + " loser!");
+                username + " " + placeId + " loser!");
     }
 
     public void drawTwoLastCards(ArrayList<Hand> hands) {
@@ -620,5 +617,14 @@ public class Controller {
         dealerFirstCart.setImage(images[0]);
         dealerSecondCart.setImage(images[1]);
         dealerScore.setText(getCardsSum(hand));
+    }
+
+    public void drawDrawMessage(Player player) {
+        drawDrawScene(player.getUsername(), player.getPlaceId());
+    }
+
+    private void drawDrawScene(String username, byte placeId) {
+        showAlert(Alert.AlertType.INFORMATION, "Not bad!",
+                username + " " + placeId + " Draw Result!");
     }
 }
