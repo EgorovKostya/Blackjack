@@ -106,7 +106,9 @@ public class ClientHandler implements Runnable {
                 }
                 case PLAYER_DONT_TAKEN_CARD_ANYMORE: {
                     String placeId = (String) Parser.deserialize(message.getData());
-                    addPlaceId(placeId);
+                    Server.answers.add(placeId);
+                    Server.notPermanentPlayers.add(placeId);
+                    dealerWork();
                     System.out.println(Server.answers);
                     break;
                 }
@@ -117,7 +119,9 @@ public class ClientHandler implements Runnable {
                     sendMessageToAllClients(new Message(DRAW_EXTRA_CART, Parser.serialize(Server.hands)));
                     if (checkOverMaximum(hand)) {
                         messageOutputStream.writeMessage(new Message(OVER_MAXIMUM, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
-                        addPlaceId(placeId);
+                        Server.answers.add(placeId);
+                        Server.notPermanentPlayers.add(placeId);
+                        dealerWork();
                     }
                     System.out.println(Server.hands);
                     break;
@@ -126,9 +130,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void addPlaceId(String placeId) {
-        Server.answers.add(placeId);
-        Server.notPermanentPlayers.add(placeId);
+    private void dealerWork() {
         if (Server.answers.size() == 5) {
             try {
                 Thread.sleep(2000);
