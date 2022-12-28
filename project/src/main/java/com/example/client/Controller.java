@@ -139,6 +139,7 @@ public class Controller {
         player.setPlaceId((byte) 1);
         byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
+        leaveButton.setDisable(false);
     }
 
     public void onClickAction2(ActionEvent actionEvent) {
@@ -146,6 +147,7 @@ public class Controller {
         player.setPlaceId((byte) 2);
         byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
+        leaveButton.setDisable(false);
     }
 
     public void onClickAction3(ActionEvent actionEvent) {
@@ -153,6 +155,7 @@ public class Controller {
         player.setPlaceId((byte) 3);
         byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
+        leaveButton.setDisable(false);
     }
 
     public void onClickAction4(ActionEvent actionEvent) {
@@ -160,6 +163,7 @@ public class Controller {
         player.setPlaceId((byte) 4);
         byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
+        leaveButton.setDisable(false);
     }
 
     public void onClickAction5(ActionEvent actionEvent) {
@@ -167,6 +171,7 @@ public class Controller {
         player.setPlaceId((byte) 5);
         byte[] des = Parser.serialize(player);
         messageOutputStream.writeMessage(new Message(TAKE_PLACE, des));
+        leaveButton.setDisable(false);
     }
 
     public void drawPlayerPlaces(Player player) {
@@ -201,6 +206,7 @@ public class Controller {
 
     public void onClickActionLeave(ActionEvent actionEvent) {
         messageOutputStream.writeMessage(new Message(PLAYER_LEAVE, Parser.serialize(player)));
+        leaveButton.setDisable(true);
     }
 
     private void setText(Button button, String username) {
@@ -334,6 +340,10 @@ public class Controller {
         Random random = new Random();
         String imagePath = null;
         switch (i) {
+            case 1: {
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartTuz.png";
+                break;
+            }
             case 2: {
                 imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartTwo.png";
                 break;
@@ -351,7 +361,7 @@ public class Controller {
                 break;
             }
             case 6: {
-                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartSix.jpg";
+                imagePath = "C:\\Users\\egoro\\OneDrive\\Рабочий стол\\ThirdSem\\blackjack\\project\\src\\main\\resources\\com\\example\\carts\\cartSix.png";
                 break;
             }
             case 7: {
@@ -603,5 +613,12 @@ public class Controller {
             sum += rank;
         }
         return String.valueOf(sum);
+    }
+
+    public void drawDealerCardsAndScore(Hand hand) {
+        Image[] images = getImageByHand(hand);
+        dealerFirstCart.setImage(images[0]);
+        dealerSecondCart.setImage(images[1]);
+        dealerScore.setText(getCardsSum(hand));
     }
 }

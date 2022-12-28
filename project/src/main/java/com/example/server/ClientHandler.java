@@ -7,6 +7,9 @@ import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
 import com.example.util.ChooseCard;
+import javafx.animation.PauseTransition;
+import javafx.concurrent.Task;
+import javafx.util.Duration;
 
 import java.io.*;
 import java.net.Socket;
@@ -61,6 +64,9 @@ public class ClientHandler implements Runnable {
                             Hand hand = new Hand();
                             hand.getCards()[0] = ChooseCard.getRandomCards();
                             hand.getCards()[1] = ChooseCard.getRandomCards();
+                            if (hand.getCards()[0] == 11 && hand.getCards()[1] == 11) {
+                                hand.getCards()[1] = 1;
+                            }
                             hands.add(hand);
                         }
                         Server.hands = hands;
@@ -69,8 +75,6 @@ public class ClientHandler implements Runnable {
                         sendMessageToAllClients(new Message(DRAW_PLUS_MINUS, Parser.serialize(Server.places)));
                         for (byte i = 1; i < 6; i++) {
                             if (check21Win(hands.get(i))) {
-                                System.out.println(Server.places.get(i - 1));
-                                System.out.println("----");
                                 Server.answers.add(String.valueOf(i));
                                 Server.winnersWith21.add(String.valueOf(i));
                             }
@@ -85,6 +89,10 @@ public class ClientHandler implements Runnable {
                     if (Server.hands.size() != 0) {
                         messageOutputStream.writeMessage(new Message(DRAW_CARDS, Parser.serialize(Server.hands)));
                         messageOutputStream.writeMessage(new Message(DRAW_SCORES, Parser.serialize(Server.hands)));
+                    }
+                    if (Server.answers.size() == 5) {
+                        messageOutputStream.writeMessage(new Message(DRAW_DEALER_CARDS,
+                                Parser.serialize(Server.hands.get(0))));
                     }
                     break;
                 }
@@ -111,8 +119,14 @@ public class ClientHandler implements Runnable {
                     String placeId = (String) Parser.deserialize(message.getData());
                     Server.answers.add(placeId);
                     if (Server.answers.size() == 5) {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        sendMessageToAllClients(new Message(DRAW_DEALER_CARDS, Parser.serialize(Server.hands.get(0))));
                         //логика с игрой дилера
-                        //перевернуть свою карту, добрать в случае необходимости
+                        dealerMove();
                     }
                     System.out.println(Server.answers);
                     break;
@@ -127,8 +141,14 @@ public class ClientHandler implements Runnable {
                         Server.answers.add(placeId);
                         Server.losersMoreThan21.add(placeId);
                         if (Server.answers.size() == 5) {
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            sendMessageToAllClients(new Message(DRAW_DEALER_CARDS, Parser.serialize(Server.hands.get(0))));
                             //логика с игрой дилера
-                            //перевернуть свою карту, добрать в случае необходимости
+                            dealerMove();
                         }
                     }
                     System.out.println(Server.hands);
@@ -138,6 +158,49 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    private void dealerMove() {
+        System.out.println(Server.hands.get(0));
+        System.out.println(1);
+        if (getCardsSum(Server.hands.get(0)) >= 17 && getCardsSum(Server.hands.get(0)) <= 21) {
+            dealerStopTakenCard();
+            return;
+        }
+        if (getCardsSum(Server.hands.get(0)) >= 22) {
+            dealerLoseGame();
+            return;
+        }
+        dealerStep();
+    }
+
+    private void dealerLoseGame() {
+    }
+
+    private void dealerStopTakenCard() {
+
+    }
+
+    private void dealerStep() {
+        Hand hand = Server.hands.get(0);
+        giveOneMoreCard(hand);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        sendMessageToAllClients(new Message(DRAW_DEALER_CARDS, Parser.serialize(Server.hands.get(0))));
+        dealerMove();
+    }
+
+    private int getCardsSum(Hand hand) {
+        byte sum = 0;
+        for (byte rank : hand.getCards()) {
+            sum += rank;
+        }
+        if (sum == 22) {
+            sum = 12;
+        }
+        return sum;
+    }
     private boolean checkOverMaximum(Hand hand) {
         byte sum = 0;
         for (byte rank: hand.getCards()) {

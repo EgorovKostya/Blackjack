@@ -9,6 +9,7 @@ import com.example.protocol.MessageOutputStream;
 import javafx.application.Platform;
 import lombok.SneakyThrows;
 
+import javax.net.ssl.SNIHostName;
 import java.util.ArrayList;
 
 import static com.example.protocol.Constant.*;
@@ -158,6 +159,16 @@ public class MessageListener implements Runnable {
                         places.add(player);
                         break;
                     }
+                    case DRAW_DEALER_CARDS: {
+                        Hand hand = (Hand) Parser.deserialize(message.getData());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.drawDealerCardsAndScore(hand);
+                            }
+                        });
+                        break;
+                    }
                 }
             }
 
@@ -191,4 +202,6 @@ public class MessageListener implements Runnable {
         }
         return sum == 21;
     }
+
+
 }
