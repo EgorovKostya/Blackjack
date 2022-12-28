@@ -191,6 +191,16 @@ public class MessageListener implements Runnable {
                         });
                         break;
                     }
+                    case RESET_TABLE: {
+                        places = new ArrayList<>();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.resetTable();
+                            }
+                        });
+                        break;
+                    }
                 }
             }
 

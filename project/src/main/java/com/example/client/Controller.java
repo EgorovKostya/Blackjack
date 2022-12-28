@@ -1,5 +1,6 @@
 package com.example.client;
 
+import com.example.ClientApp;
 import com.example.entity.Hand;
 import com.example.entity.Player;
 import com.example.mapper.Parser;
@@ -9,12 +10,15 @@ import com.example.protocol.MessageOutputStream;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 
 import java.nio.charset.StandardCharsets;
@@ -134,6 +138,8 @@ public class Controller {
 
     private Client client;
 
+    private Stage stage;
+
     public void onClickAction1(ActionEvent actionEvent) {
         button1.setDisable(true);
         player.setPlaceId((byte) 1);
@@ -215,6 +221,7 @@ public class Controller {
 
     public void transfer(Client client, MessageOutputStream messageOutputStream,
                          MessageInputStream messageInputStream, Player player, Stage stage) {
+        this.stage = stage;
         this.client = client;
         client.setPlayer(player);
         client.setStage(stage);
@@ -626,5 +633,36 @@ public class Controller {
     private void drawDrawScene(String username, byte placeId) {
         showAlert(Alert.AlertType.INFORMATION, "Not bad!",
                 username + " " + placeId + " Draw Result!");
+    }
+
+    public void resetTable() {
+        button1.setDisable(false);
+        button1.setText("Зайти");
+        button2.setDisable(false);
+        button2.setText("Зайти");
+        button3.setDisable(false);
+        button3.setText("Зайти");
+        button4.setDisable(false);
+        button4.setText("Зайти");
+        button5.setDisable(false);
+        button5.setText("Зайти");
+        firstPlayerFirstCard.setImage(null);
+        firstPlayerSecondCard.setImage(null);
+        secondPlayerSecondCard.setImage(null);
+        secondPlayerFirstCard.setImage(null);
+        thirdPlayerFirstCard.setImage(null);
+        thirdPlayerSecondCard.setImage(null);
+        fourthPlayerFirstCard.setImage(null);
+        fourthPlayerSecondCard.setImage(null);
+        fifthPlayerSecondCard.setImage(null);
+        fifthPlayerFirstCard.setImage(null);
+        dealerSecondCart.setImage(null);
+        dealerFirstCart.setImage(null);
+        dealerScore.setText(null);
+        firstPlaceScore.setText(null);
+        secondPlaceScore.setText(null);
+        thirdPlaceScore.setText(null);
+        fourthPlaceScore.setText(null);
+        fifthPlaceScore.setText(null);
     }
 }

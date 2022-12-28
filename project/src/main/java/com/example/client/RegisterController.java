@@ -63,7 +63,7 @@ public class RegisterController implements Initializable {
         String fullName = fullNameField.getText();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         this.stage = stage;
-        controller.transfer(client,messageOutputStream, messageInputStream, Player.builder().username(fullName).build(), stage);
+        controller.transfer(client, messageOutputStream, messageInputStream, Player.builder().username(fullName).build(), stage);
         messageOutputStream.writeMessage(new Message(SERVER_DRAW_PLACES, "CHE".getBytes(StandardCharsets.UTF_8)));
         stage.setTitle("BlackJack!");
         stage.setScene(scene);

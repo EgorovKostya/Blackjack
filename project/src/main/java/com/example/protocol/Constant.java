@@ -24,4 +24,5 @@ public class Constant {
     public static final byte DRAW_DEALER_CARDS = 78;
     public static final byte OVER_MAXIMUM = 79;
     public static final byte GAME_RESULT_DRAW = 80;
+    public static final byte RESET_TABLE = 81;
 }

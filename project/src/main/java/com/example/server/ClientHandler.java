@@ -191,6 +191,26 @@ public class ClientHandler implements Runnable {
                 messageOutputStream.writeMessage(new Message(YOU_WON_GAME, Parser.serialize(Server.places.get(Integer.parseInt(placeId) - 1))));
             }
         }
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        restartGame();
+    }
+
+    private void restartGame() {
+        sendMessageToAllClients(new Message(RESET_TABLE, "".getBytes(StandardCharsets.UTF_8)));
+        Server.answers = new ArrayList<>();
+        Server.winnersWith21 = new ArrayList<>();
+        Server.notPermanentPlayers = new ArrayList<>();
+        Server.places = new ArrayList<>();
+        Server.places.add(null);
+        Server.places.add(null);
+        Server.places.add(null);
+        Server.places.add(null);
+        Server.places.add(null);
+        Server.hands = new ArrayList<>();
     }
 
     private void dealerStep() {
