@@ -10,6 +10,7 @@ import com.example.util.ChooseCard;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class ClientHandler implements Runnable {
                             cntOfOccupiedPlaces++;
                         }
                     }
+                    messageOutputStream.writeMessage(new Message(NEW_PLACE_ID, Parser.serialize(player)));
                     if (cntOfOccupiedPlaces == 5) {
                         ArrayList<Hand> hands = new ArrayList<>();
                         for (byte i = 0; i < 6; i++) {
@@ -69,7 +71,6 @@ public class ClientHandler implements Runnable {
                             if (check21Win(hands.get(i))) {
                                 System.out.println(Server.places.get(i - 1));
                                 System.out.println("----");
-                                messageOutputStream.writeMessage(new Message(YOU_WON_GAME, Parser.serialize(Server.places.get(i - 1))));
                                 Server.answers.add(String.valueOf(i));
                                 Server.winnersWith21.add(String.valueOf(i));
                             }
@@ -96,6 +97,7 @@ public class ClientHandler implements Runnable {
                             }
                         }
                     }
+                    messageOutputStream.writeMessage(new Message(PLAYER_RESET_PLACES, "FDFS".getBytes(StandardCharsets.UTF_8)));
                     byte[] des = Parser.serialize(Server.places);
                     messageOutputStream.writeMessage(new Message(DRAW_FREE_PLACES, des));
                     sendMessageAnotherPlayers(new Message(DRAW_PLACES, des));

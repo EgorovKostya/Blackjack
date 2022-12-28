@@ -15,11 +15,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import static com.example.protocol.Constant.*;
@@ -480,9 +479,10 @@ public class Controller {
         return String.valueOf(sum);
     }
 
-    public void drawWonMessage(byte placeId) {
-        drawWinScene();
-        hideMinusAndPlus(placeId);
+    public void drawWonMessage(Player player) {
+        System.out.println(player);
+        drawWinScene(player.getUsername());
+        hideMinusAndPlus(player.getPlaceId());
     }
 
     private void hideMinusAndPlus(int placeId) {
@@ -516,9 +516,9 @@ public class Controller {
         }
     }
 
-    private void drawWinScene() {
+    private void drawWinScene(String username) {
         showAlert(Alert.AlertType.INFORMATION, "Congratulations!",
-                client.getPlayer().getUsername() + " won dealer");
+                username + " won dealer");
     }
 
     private static void showAlert(Alert.AlertType alertType, String title, String message) {
@@ -554,13 +554,13 @@ public class Controller {
         messageOutputStream.writeMessage(new Message(PLAYER_DONT_TAKEN_CARD_ANYMORE, Parser.serialize(new String("5"))));
     }
 
-    public void drawLoserMessage(byte placeId) {
-        drawLoserScene();
-        hideMinusAndPlus(placeId);
+    public void drawLoserMessage(Player player) {
+        drawLoserScene(player.getUsername());
+        hideMinusAndPlus(player.getPlaceId());
     }
-    private void drawLoserScene() {
+    private void drawLoserScene(String username) {
         showAlert(Alert.AlertType.INFORMATION, "Noob!",
-                client.getPlayer().getUsername() + " loser!");
+                username + " loser!");
     }
 
     public void drawTwoLastCards(ArrayList<Hand> hands) {
@@ -578,19 +578,19 @@ public class Controller {
                     break;
                 }
                 case 2: {
-                    secondPlaceScore.setText(getCardsSum(hands.get(i)));
+                    secondPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
                     break;
                 }
                 case 3: {
-                    thirdPlaceScore.setText(getCardsSum(hands.get(i)));
+                    thirdPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
                     break;
                 }
                 case 4: {
-                    fourthPlaceScore.setText(getCardsSum(hands.get(i)));
+                    fourthPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
                     break;
                 }
                 case 5: {
-                    fifthPlaceScore.setText(getCardsSum(hands.get(i)));
+                    fifthPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
                     break;
                 }
             }

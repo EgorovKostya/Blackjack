@@ -13,5 +13,5 @@ import java.io.Serializable;
 @Builder
 public class Hand implements Serializable {
 
-    private byte[] cards = new byte[5];
+    private byte[] cards = new byte[6];
 }

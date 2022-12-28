@@ -23,9 +23,7 @@ public class MessageListener implements Runnable {
 
     private Controller controller;
 
-    private Hand serverHand;
-
-    private Hand playerHand;
+    private ArrayList<Player> places = new ArrayList<>();
 
     public MessageListener(Client client, Controller controller) {
         this.client = client;
@@ -68,8 +66,7 @@ public class MessageListener implements Runnable {
                     case GAME_STARTED: {
                         controller.disableLeaveButton();
                         ArrayList<Hand> hands = (ArrayList<Hand>) Parser.deserialize(message.getData());
-                        playerHand = hands.get(client.getPlayer().getPlaceId());
-                        serverHand = hands.get(0);
+
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
@@ -77,6 +74,17 @@ public class MessageListener implements Runnable {
                             }
                         });
                         controller.drawPLayersCards(hands);
+                        for (int i = 1; i < 6; i++) {
+                            if (check21Win(hands.get(i)) && containsThisPlaceId(places, i)) {
+                                Player player = getPlayerWithThisPlaceId(places, i);
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        controller.drawWonMessage(player);
+                                    }
+                                });
+                            }
+                        }
                         break;
                     }
                     case DRAW_CARDS: {
@@ -105,10 +113,11 @@ public class MessageListener implements Runnable {
                     }
                     case YOU_WON_GAME: {
                         Player player = (Player) Parser.deserialize(message.getData());
+                        System.out.println(player);
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                controller.drawWonMessage(player.getPlaceId());
+                                controller.drawWonMessage(player);
                             }
                         });
                         break;
@@ -135,9 +144,18 @@ public class MessageListener implements Runnable {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                controller.drawLoserMessage(player.getPlaceId());
+                                controller.drawLoserMessage(player);
                             }
                         });
+                        break;
+                    }
+                    case PLAYER_RESET_PLACES: {
+                        places = new ArrayList<>();
+                        break;
+                    }
+                    case NEW_PLACE_ID: {
+                        Player player = (Player) Parser.deserialize(message.getData());
+                        places.add(player);
                         break;
                     }
                 }
@@ -146,5 +164,31 @@ public class MessageListener implements Runnable {
         } catch ( Throwable e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean containsThisPlaceId(ArrayList<Player> places, int i) {
+        for (Player player: places) {
+            if (player.getPlaceId() == i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Player getPlayerWithThisPlaceId(ArrayList<Player> places, int i) {
+        for (Player player: places) {
+            if (player.getPlaceId() == i) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    private boolean check21Win(Hand hand) {
+        byte sum = 0;
+        for (byte rank: hand.getCards()) {
+            sum += rank;
+        }
+        return sum == 21;
     }
 }

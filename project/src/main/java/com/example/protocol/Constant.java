@@ -19,4 +19,6 @@ public class Constant {
     public static final byte YOU_WON_GAME = 73;
     public static final byte DRAW_EXTRA_CART = 74;
     public static final byte YOU_LOSE_GAME = 75;
+    public static final byte NEW_PLACE_ID = 76;
+    public static final byte PLAYER_RESET_PLACES = 77;
 }
