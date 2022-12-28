@@ -7,9 +7,6 @@ import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
 import com.example.util.ChooseCard;
-import javafx.animation.PauseTransition;
-import javafx.concurrent.Task;
-import javafx.util.Duration;
 
 import java.io.*;
 import java.net.Socket;
@@ -229,9 +226,6 @@ public class ClientHandler implements Runnable {
         byte sum = 0;
         for (byte rank : hand.getCards()) {
             sum += rank;
-        }
-        if (sum == 22) {
-            sum = 12;
         }
         return sum;
     }
