@@ -7,6 +7,7 @@ import com.example.protocol.Message;
 import com.example.protocol.MessageInputStream;
 import com.example.protocol.MessageOutputStream;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
@@ -68,6 +70,12 @@ public class RegisterController implements Initializable {
         stage.setTitle("BlackJack!");
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                messageOutputStream.writeMessage(new Message(PLAYER_LEAVE_THE_GAME, Parser.serialize(client.getPlayer())));
+            }
+        });
 
     }
 

@@ -41,7 +41,8 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         Message message;
-        while ((message = messageInputStream.readMessage()) != null) {
+        while (!socket.isClosed()) {
+            message = messageInputStream.readMessage();
             switch (message.getType()) {
                 case TAKE_PLACE: {
                     Player player = (Player) Parser.deserialize(message.getData());
@@ -109,7 +110,20 @@ public class ClientHandler implements Runnable {
                     break;
                 }
                 case PLAYER_LEAVE_THE_GAME: {
+                    Player player = (Player) Parser.deserialize(message.getData());
+                    for (byte i = 0; i < 5; i++) {
+                        if (Server.places.get(i) != null) {
+                            if (player.getUsername().equals(Server.places.get(i).getUsername())) {
+                                Server.places.set(i, null);
+                            }
+                        }
+                    }
+                    messageOutputStream.writeMessage(new Message(PLAYER_RESET_PLACES, "FDFS".getBytes(StandardCharsets.UTF_8)));
+                    byte[] des = Parser.serialize(Server.places);
+                    messageOutputStream.writeMessage(new Message(DRAW_FREE_PLACES, des));
+                    sendMessageAnotherPlayers(new Message(DRAW_PLACES, des));
                     remove();
+                    close(socket, messageOutputStream, messageInputStream);
                     break;
                 }
                 case PLAYER_DONT_TAKEN_CARD_ANYMORE: {
@@ -275,11 +289,11 @@ public class ClientHandler implements Runnable {
 
     public void close(Socket socket, MessageOutputStream messageOutputStream, MessageInputStream messageInputStream) {
         try {
-            if (messageOutputStream.getOutputStream() != null) {
-                messageOutputStream.getOutputStream().close();
-            }
             if (messageInputStream.getInputStream() != null) {
                 messageInputStream.getInputStream().close();
+            }
+            if (messageOutputStream.getOutputStream() != null) {
+                messageOutputStream.getOutputStream().close();
             }
 
             if (socket != null) {
