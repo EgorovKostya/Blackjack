@@ -588,35 +588,27 @@ public class Controller {
                     break;
                 }
                 case 1: {
-                    firstPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
+                    firstPlaceScore.setText(getCardsSum(hands.get(i)));
                     break;
                 }
                 case 2: {
-                    secondPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
+                    secondPlaceScore.setText(getCardsSum(hands.get(i)));
                     break;
                 }
                 case 3: {
-                    thirdPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
+                    thirdPlaceScore.setText(getCardsSum(hands.get(i)));
                     break;
                 }
                 case 4: {
-                    fourthPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
+                    fourthPlaceScore.setText(getCardsSum(hands.get(i)));
                     break;
                 }
                 case 5: {
-                    fifthPlaceScore.setText(getCardsSumSecondary(hands.get(i)));
+                    fifthPlaceScore.setText(getCardsSum(hands.get(i)));
                     break;
                 }
             }
         }
-    }
-
-    private String getCardsSumSecondary(Hand hand) {
-        byte sum = 0;
-        for (byte rank : hand.getCards()) {
-            sum += rank;
-        }
-        return String.valueOf(sum);
     }
 
     public void drawDealerCardsAndScore(Hand hand) {
@@ -646,6 +638,11 @@ public class Controller {
         button4.setText("Зайти");
         button5.setDisable(false);
         button5.setText("Зайти");
+        removeAllCardsAndScores();
+
+    }
+
+    public void removeAllCardsAndScores() {
         firstPlayerFirstCard.setImage(null);
         firstPlayerSecondCard.setImage(null);
         secondPlayerSecondCard.setImage(null);

@@ -71,6 +71,15 @@ public class MessageListener implements Runnable {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
+                                controller.removeAllCardsAndScores();
+                            }
+                        });
+
+                        Thread.sleep(1000);
+
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
                                 controller.drawPlayersScore(hands);
                             }
                         });

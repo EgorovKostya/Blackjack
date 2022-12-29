@@ -57,26 +57,7 @@ public class ClientHandler implements Runnable {
                     }
                     messageOutputStream.writeMessage(new Message(NEW_PLACE_ID, Parser.serialize(player)));
                     if (cntOfOccupiedPlaces == 5) {
-                        ArrayList<Hand> hands = new ArrayList<>();
-                        for (byte i = 0; i < 6; i++) {
-                            Hand hand = new Hand();
-                            hand.getCards()[0] = ChooseCard.getRandomCards();
-                            hand.getCards()[1] = ChooseCard.getRandomCards();
-                            if (hand.getCards()[0] == 11 && hand.getCards()[1] == 11) {
-                                hand.getCards()[1] = 1;
-                            }
-                            hands.add(hand);
-                        }
-                        Server.hands = hands;
-                        System.out.println(Parser.serialize(hands).length);
-                        sendMessageToAllClients(new Message(GAME_STARTED, Parser.serialize(hands)));
-                        sendMessageToAllClients(new Message(DRAW_PLUS_MINUS, Parser.serialize(Server.places)));
-                        for (byte i = 1; i < 6; i++) {
-                            if (check21Win(hands.get(i))) {
-                                Server.answers.add(String.valueOf(i));
-                                Server.winnersWith21.add(String.valueOf(i));
-                            }
-                        }
+                        firstHand();
                     }
                     break;
                 }
@@ -126,6 +107,29 @@ public class ClientHandler implements Runnable {
                     System.out.println(Server.hands);
                     break;
                 }
+            }
+        }
+    }
+
+    private void firstHand() {
+        ArrayList<Hand> hands = new ArrayList<>();
+        for (byte i = 0; i < 6; i++) {
+            Hand hand = new Hand();
+            hand.getCards()[0] = ChooseCard.getRandomCards();
+            hand.getCards()[1] = ChooseCard.getRandomCards();
+            if (hand.getCards()[0] == 11 && hand.getCards()[1] == 11) {
+                hand.getCards()[1] = 1;
+            }
+            hands.add(hand);
+        }
+        Server.hands = hands;
+        System.out.println(Parser.serialize(hands).length);
+        sendMessageToAllClients(new Message(GAME_STARTED, Parser.serialize(hands)));
+        sendMessageToAllClients(new Message(DRAW_PLUS_MINUS, Parser.serialize(Server.places)));
+        for (byte i = 1; i < 6; i++) {
+            if (check21Win(hands.get(i))) {
+                Server.answers.add(String.valueOf(i));
+                Server.winnersWith21.add(String.valueOf(i));
             }
         }
     }
